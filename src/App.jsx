@@ -17,6 +17,7 @@ import { Error404 } from './components/Errors/Errors';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showNav, setShowNav] = useState(true);
+  const [user, setUser] = useState('');
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -24,12 +25,21 @@ const App = () => {
 
     if (authToken) {
       setIsLoggedIn(true)
+      let usr = sessionStorage.getItem('User ID').toString();
+      console.log(usr);
+      setUser(usr)
+      console.log("hmm", user)
+    } else {
+      setIsLoggedIn(false)
+      setUser(null)
     }
+
+
   }, [])
 
   return (
     <div className="min-h-full bg-white dark:bg-black">
-      {showNav ? <NavigationBar /> : null}
+      {showNav ? <NavigationBar isLoggedIn={isLoggedIn} userID={user}/> : null}
       <main className='md:flex'>
         <Routes>
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />
@@ -37,7 +47,7 @@ const App = () => {
           <Route path="/upload" element={<Upload />} />
           <Route path="/trend" element={<Trend />} />
 
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav}/>} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser}/>} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav}/>} />
           <Route path="/user/:id" element={<User />}/>
           <Route path="*" element={<Error404 />}/>

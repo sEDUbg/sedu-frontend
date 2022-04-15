@@ -6,7 +6,7 @@ import { getFirestore, getDoc, doc, query } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 
-const Login = ({ setIsLoggedIn, setShowNav }) => {
+const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   let navigate = useNavigate();
@@ -19,7 +19,10 @@ const Login = ({ setIsLoggedIn, setShowNav }) => {
       .then((response) => {
         // response.user.uid;
         //console.log(response.user.uid);
-        sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+        sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
+        console.log(authentication.currentUser.uid);
+        sessionStorage.setItem('User ID', authentication.currentUser.uid);
+        setUser(authentication.currentUser.uid);
         setIsLoggedIn(true);
         setShowNav(true);
         navigate('/');

@@ -7,29 +7,86 @@ const user = {
     email: 'kaloyan@sedubg.com',
     imageUrl:
       'https://avatars.cloudflare.steamstatic.com/b4a5d7f1473151316410c1307822efd74ec5a87b_full.jpg',
-  }
-
-const title = 'sEDUbg'
-
-const navigation = [
-  { name: 'начало', href: '/', current: true },
-  { name: 'презентации', href: 'presentations', current: false },
-  { name: 'планове', href: 'plans', current: false },
-  { name: 'материали', href: 'materials', current: false },
-  { name: 'тренд', href: 'trending', current: false },
-  { name: 'търси...', href: 'search', current: false },
-];
-
-const userNavigation = [
-  { name: 'моя профил', href: '/user/id=3' },
-  { name: 'настройки', href: '#' },
-  { name: 'излез', href: '#' },
-];
+}
 
 const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
+const NavigationBar = (isLoggedIn, userID) => {
+    const title = 'sEDUbg'
 
-const NavigationBar = () => {
+    const navigation = (isLoggedIn) ? [
+    { name: 'начало', href: '/', current: true },
+    { name: 'презентации', href: 'presentations', current: false },
+    { name: 'планове', href: 'plans', current: false },
+    { name: 'материали', href: 'materials', current: false },
+    { name: 'тренд', href: 'trending', current: false },
+    { name: 'търси...', href: 'search', current: false },
+    ] : [
+    { name: 'начало', href: '/', current: true },
+    { name: 'вход', href: 'login', current: false },
+    { name: 'регистрация', href: 'register', current: false },
+    ];
+
+    let userLink = '/user/id=' + userID + '';
+    console.log(typeof userLink, 'haha', userID)
+
+    const userNavigation = (isLoggedIn) ? [
+    { name: 'моя профил', href: userLink},
+    { name: 'качване', href: '/upload' },
+    { name: 'настройки', href: '#' },
+    { name: 'излез', href: '#' },
+    ] : null;
+
+    const Usr = () => {
+        if(isLoggedIn) return (
+
+                        <div className="ml-4 flex items-center md:ml-6">
+                            <button
+                            type="button"
+                            className="bg-gray-200 dark:bg-gray-800 p-1 rounded-full text-gray-700 dark:text-gray-400 hover:text-black dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                            >
+                            <span className="sr-only">View notifications</span>
+                            <BellIcon className="h-6 w-6" aria-hidden="true" />
+                            </button>
+                        <Menu as="div" className="ml-3 relative">
+                        <div>
+                            <Menu.Button className="max-w-xs dark:bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                            <span className="sr-only">Open user menu</span>
+                            <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                            </Menu.Button>
+                        </div>
+                        <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                        >
+                            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {userNavigation?.map((item) => (
+                                <Menu.Item key={item.name}>
+                                {({ active }) => (
+                                    <a
+                                    href={item.href}
+                                    className={classNames(
+                                        active ? 'bg-gray-100' : '',
+                                        'block px-4 py-2 text-sm text-gray-700'
+                                    )}
+                                    >
+                                    {item.name}
+                                    </a>
+                                )}
+                                </Menu.Item>
+                            ))}
+                            </Menu.Items>
+                        </Transition>
+                        </Menu>
+                        </div>
+                    );
+                }
+
     return (
         <Disclosure as="nav" className="bg-gray-100 dark:bg-slate-900 sticky top-0 z-50">
         {({ open }) => (
@@ -68,52 +125,7 @@ const NavigationBar = () => {
                 </div>
                 </div>
                 <div className="hidden md:block">
-                <div className="ml-4 flex items-center md:ml-6">
-                    <button
-                    type="button"
-                    className="bg-gray-200 dark:bg-gray-800 p-1 rounded-full text-gray-700 dark:text-gray-400 hover:text-black dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                    >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                    </button>
-
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="ml-3 relative">
-                    <div>
-                        <Menu.Button className="max-w-xs dark:bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span className="sr-only">Open user menu</span>
-                        <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
-                        </Menu.Button>
-                    </div>
-                    <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                    >
-                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {userNavigation.map((item) => (
-                            <Menu.Item key={item.name}>
-                            {({ active }) => (
-                                <a
-                                href={item.href}
-                                className={classNames(
-                                    active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700'
-                                )}
-                                >
-                                {item.name}
-                                </a>
-                            )}
-                            </Menu.Item>
-                        ))}
-                        </Menu.Items>
-                    </Transition>
-                    </Menu>
-                </div>
+                    <Usr />
                 </div>
                 <div className="-mr-2 flex md:hidden">
                 {/* Mobile menu button */}
