@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+.Toastify__toast {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Toastify__toast-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.Toastify__toast-body {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: .9rem;
+}
+
+.Toastify__toast-icon {
+  width: 1.5rem;
+  margin-right: .5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .Toastify__toast-body svg{
+    -webkit-filter: filter(1);
+    filter: invert(1);
+  }
+}

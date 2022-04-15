@@ -23,14 +23,12 @@ const App = () => {
 
     if (authToken) {
       setIsLoggedIn(true)
-      .then(() => navigate('/'))
     }
   }, [])
 
-
   return (
     <div className="min-h-full bg-white dark:bg-black">
-      <NavigationBar />
+      {showNav ? <NavigationBar /> : null}
       <main className='md:flex'>
         <Routes>
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />

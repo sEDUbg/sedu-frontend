@@ -179,7 +179,7 @@ const NavigationBar = () => {
             </Disclosure.Panel>
         </>
         )}
-    </Disclosure>
+        </Disclosure>
     );
 }
 

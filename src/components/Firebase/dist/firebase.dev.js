@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.storage = exports.app = exports.provider = void 0;
 
 var _app = require("firebase/app");
+
+var _auth = require("firebase/auth");
 
 var _storage = require("firebase/storage");
 
@@ -23,8 +25,9 @@ var firebaseConfig = {
   appId: "1:843342829716:web:0c4d66c647cead8ca73c81",
   measurementId: "G-903L55PHW1"
 };
-var app = (0, _app.initializeApp)(firebaseConfig); // Get a reference to the storage service, which is used to create references in your storage bucket
-
+var provider = new _auth.GoogleAuthProvider();
+exports.provider = provider;
+var app = (0, _app.initializeApp)(firebaseConfig);
+exports.app = app;
 var storage = (0, _storage.getStorage)(app);
-var _default = app;
-exports["default"] = _default;
+exports.storage = storage;
