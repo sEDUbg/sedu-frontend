@@ -16,7 +16,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
     e.preventDefault();
     const authentication = getAuth(app);
 
-    createUserWithEmailAndPassword(authentication, email.current.value, password.current.value)
+    createUserWithEmailAndPassword(authentication, email, password.current.value)
       .then((response) => {
         sendEmailVerification(authentication.currentUser)
           .then(() => {
