@@ -15,7 +15,6 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
   const handleAction = (e) => {
     e.preventDefault();
     const authentication = getAuth(app);
-
     createUserWithEmailAndPassword(authentication, email, password.current.value)
       .then((response) => {
         sendEmailVerification(authentication.currentUser)
@@ -39,7 +38,6 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
       setEmail(e.target.value)
     }
     if(password.current.value !== passwordConfirm.current.value){
-      console.log("BEFORE", toastId);
       if(toastId.current === null)
       toastId.current = toast.error('паролите не съвпадат');
       else
