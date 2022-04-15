@@ -1,12 +1,16 @@
 import React from 'react';
-import { useState, useEffect , useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { app } from '../Firebase/firebase';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { getFirestore, setDoc, doc, Timestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 
 const Register = ({ setIsLoggedIn, setShowNav }) => {
   const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
   const password = useRef('');
   const passwordConfirm = useRef('');
   const toastId = useRef(null);
@@ -17,6 +21,23 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
     const authentication = getAuth(app);
     createUserWithEmailAndPassword(authentication, email, password.current.value)
       .then((response) => {
+        const firestore = getFirestore(app);
+        const user_info = {
+          FirstName: firstName,
+          LastName: lastName,
+          Username: username,
+          Payment: "",
+          bio: "",
+          class: 0,
+          isPro: false,
+          expirationDate: Timestamp.now(),
+          mfaEnabled: false,
+          mfaSecret: "",
+          profileUrl: "",
+          school: "",
+
+        }
+        setDoc(doc(firestore, 'User_info', response.user.uid), user_info);
         sendEmailVerification(authentication.currentUser)
           .then(() => {
             toast.success('Вашият акаунт е създаден, моля проверете вашият имейл адрес за потвърждение');
@@ -36,19 +57,25 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
   const getInput = (e) => {
     if (e.target.id === 'email') {
       setEmail(e.target.value)
-    }
-    if(password.current.value !== passwordConfirm.current.value){
-      if(toastId.current === null)
-      toastId.current = toast.error('паролите не съвпадат');
+    } else if (e.target.id === 'firstName') {
+      setFirstName(e.target.value)
+    } else if (e.target.id === 'lastName') {
+      setLastName(e.target.value)
+    } else if (e.target.id === 'username') {
+      setUsername(e.target.value)
+    } else if (password.current.value !== passwordConfirm.current.value) {
+      if (toastId.current === null)
+        toastId.current = toast.error('паролите не съвпадат');
       else
         toast.update(toastId.current, { render: "паролите не съвпадат", type: "error" });
-    }  
-    if (password.current.value === passwordConfirm.current.value) {
+    } else if (password.current.value === passwordConfirm.current.value) {
       //toast.dismiss(toastId.current); // doesn't work because
       var e = document.getElementsByClassName("Toastify")[0];
-        e.innerHTML = "";
+      e.innerHTML = "";
       toastId.current = null;
     }
+
+
   }
 
   useEffect(() => {
@@ -132,7 +159,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                 onChange={getInput}
               />
             </div>
-            <ToastContainer id='Toastify'/>
+            <ToastContainer id='Toastify' />
             <div className='flex justify-center items-center mt-6'>
               <button
                 className={`dark:bg-slate-800 py-2 px-4 text-sm text-black dark:text-white rounded border dark:border-slate-700 focus:outline-none focus:border-green-dark`}

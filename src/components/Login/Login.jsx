@@ -32,7 +32,7 @@ const Login = ({ setIsLoggedIn, setShowNav }) => {
       })
       .catch((error) => {
         console.log(error.code)
-        if(error.code === 'auth/invalid-email'){
+        if (error.code === 'auth/invalid-email') {
           console.log("AAAAAAAA")
           toast.error('невалиден имейл адрес');
         }
