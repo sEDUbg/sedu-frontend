@@ -15,6 +15,7 @@
     "outline": "^0.1.1",
     "postcss": "^8.4.7",
     "react": "^17.0.2",
+    "react-doc-viewer": "^0.1.5",
     "react-dom": "^17.0.2",
     "react-drag-drop-files": "^2.3.5",
     "react-fetch-hook": "^1.9.5",

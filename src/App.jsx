@@ -43,6 +43,7 @@ const App = () => {
       <main className='md:flex'>
         <Routes>
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />
+          <Route path="/presentations" element={<LandingPage />} />
           <Route path="/materials" element={<Materials />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/trend" element={<Trend />} />

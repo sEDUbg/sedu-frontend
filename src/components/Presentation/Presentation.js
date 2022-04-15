@@ -10,12 +10,19 @@
     thubnail: 'present.png',
 } */
 
+import DocViewer, { PDFRenderer, PNGRenderer, DocViewerRenderers } from "react-doc-viewer";
+
+
 const Presentation = ({title, thumbnail}) => {
+    const docs = [
+        { uri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+      ];
+
     return (
         <div className="presentation flex-initial w-full">
             <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
                 <div className="presentation__content-thumbnail">
-                    <img src={thumbnail} alt={title} className='rounded-2xl border dark:border-slate-800'/>
+                    <DocViewer className="min-h-full" documents={docs} pluginRenderers={[PDFRenderer, PNGRenderer, DocViewerRenderers]}/>
                 </div>
                 <div className="presentation__content-title bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5"><h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">{title}</h2></div>
                 
