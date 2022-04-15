@@ -5,7 +5,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } f
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 
-const Login = ({setIsLoggedIn, setShowNav}) => {
+const Register = ({setIsLoggedIn, setShowNav}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
     let navigate = useNavigate();
@@ -58,7 +58,7 @@ const Login = ({setIsLoggedIn, setShowNav}) => {
                     Log in to your account 🔐
                 </h1>
 
-                <form onSubmit={handleAction(1)}>
+                <form onSubmit={handleAction(2)}>
                     <div>
                         <label htmlFor='email'>email</label>
                         <input
@@ -85,7 +85,7 @@ const Login = ({setIsLoggedIn, setShowNav}) => {
                             className={`dark:bg-slate-800 py-2 px-4 text-sm text-black dark:text-white rounded border dark:border-slate-700 focus:outline-none focus:border-green-dark`}
                             onClick={handleAction}
                         >
-                            Login
+                            Register
                         </button>
                     </div>
                 </form>
@@ -94,4 +94,4 @@ const Login = ({setIsLoggedIn, setShowNav}) => {
     );
 };
 
-export default Login;
+export default Register;
