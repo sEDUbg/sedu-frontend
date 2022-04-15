@@ -11,15 +11,14 @@ const Login = ({setIsLoggedIn, setShowNav}) => {
     let navigate = useNavigate();
 
     const handleAction = (id) => {
-        const authentication = getAuth();
+        const authentication = getAuth(app);
         if (id === 1) {
           signInWithEmailAndPassword(authentication, email, password)
             .then((response) => {
                 setIsLoggedIn(true)
                 setShowNav(true)
                 navigate('/')
-              
-              sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+                console.log(response);
             })
             .catch((error) => {
               console.log(error.code)
@@ -37,12 +36,10 @@ const Login = ({setIsLoggedIn, setShowNav}) => {
                 setIsLoggedIn(true)
                 setShowNav(true)
                 navigate('/')
-              sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+              console.log(response);
             })
             .catch((error) => {
-              if (error.code === 'auth/email-already-in-use') {
-                toast.error('Email Already in Use');
-              }
+              console.alert(error)
             })
         }
       }
@@ -76,7 +73,7 @@ const Login = ({setIsLoggedIn, setShowNav}) => {
                             className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                             id='password'
                             placeholder='Your Password'
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
