@@ -10,6 +10,7 @@ import Trend from './components/Trend/Trend';
 import User from './components/User/User';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
+import Upload from './components/Upload/Upload';
 
 import { Error404 } from './components/Errors/Errors';
 
@@ -33,6 +34,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />
           <Route path="/materials" element={<Materials />} />
+          <Route path="/upload" element={<Upload />} />
           <Route path="/trend" element={<Trend />} />
 
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav}/>} />

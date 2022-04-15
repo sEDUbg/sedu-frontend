@@ -83,7 +83,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
   }, [])
 
   return (
-    <div className='h-screen w-screen flex bg-gray-bg1 dark:text-white'>
+    <div className='h-screen w-screen flex bg-gray-bg1 dark:text-white p-5'>
       <div className='w-full max-w-md m-auto bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default py-10 px-16 divide-y divide-slate-600 space-y-4'>
         <div className='text-center flex items-center justify-center space-x-2'>
           <img src='sedubg.png' alt='logo' className='w-12' />
@@ -144,6 +144,9 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                 id='password'
                 placeholder='твоята парола'
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                minlength='8'
+                required
                 ref={password}
                 onChange={getInput}
               />
