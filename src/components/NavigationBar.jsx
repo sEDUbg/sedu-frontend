@@ -11,9 +11,11 @@ const user = {
 
 const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
-const NavigationBar = (isLoggedIn) => {
+const NavigationBar = (isLoggedInObject) => {
+
     const title = 'sEDUbg'
     const userID = sessionStorage.getItem('User ID');
+    const isLoggedIn = isLoggedInObject.isLoggedIn;
     const navigation = (isLoggedIn) ? [
         { name: 'начало', href: '/', current: true },
         { name: 'презентации', href: 'presentations', current: false },
@@ -29,6 +31,7 @@ const NavigationBar = (isLoggedIn) => {
 
     let userLink = '/user/id=' + userID + '';
     console.log(typeof userLink, 'haha', userID)
+    console.log(isLoggedIn)
 
     const userNavigation = (isLoggedIn) ? [
         { name: 'моя профил', href: userLink },
@@ -38,6 +41,7 @@ const NavigationBar = (isLoggedIn) => {
     ] : null;
 
     const Usr = () => {
+
         if (isLoggedIn) return (
 
             <div className="ml-4 flex items-center md:ml-6">
@@ -65,7 +69,7 @@ const NavigationBar = (isLoggedIn) => {
                         leaveTo="transform opacity-0 scale-95"
                     >
                         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userNavigation?.map((item) => (
+                            {navigation?.map((item) => (
                                 <Menu.Item key={item.name}>
                                     {({ active }) => (
                                         <a
@@ -85,6 +89,7 @@ const NavigationBar = (isLoggedIn) => {
                 </Menu>
             </div>
         );
+        return null;
     }
 
     return (
@@ -176,7 +181,7 @@ const NavigationBar = (isLoggedIn) => {
                                 </button>
                             </div>
                             <div className="mt-3 px-2 space-y-1">
-                                {userNavigation.map((item) => (
+                                {navigation.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="Link"
