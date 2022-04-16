@@ -51,7 +51,7 @@ const Upload = () => {
                 </div>
                 <div className=''>
                     <form onSubmit={handleAction}>
-                        <div className='md:mt-4 md:flex space-x-4'>
+                        <div className='md:mt-4 md:flex md:space-x-4'>
                             <div>
                                 <div>
                                     <label htmlFor='title'>заглавие</label>
@@ -78,13 +78,13 @@ const Upload = () => {
                                     </datalist>
                                 </div>
                             </div>
-                            <div className='pb-5'>
-                                <label htmlFor='имейл'>описание</label>
+                            <div className='md:pb-5'>
+                                <label htmlFor='description'>описание</label>
                                 <textarea
-                                    type='email'
+                                    type='text'
                                     className={`w-full h-full resize-none p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
-                                    id='email'
-                                    placeholder='твоя имейл адрес'
+                                    id='description'
+                                    placeholder='тук се намира своето описание'
                                     resizable='false'
                                     onChange={getInput}
                                 />
