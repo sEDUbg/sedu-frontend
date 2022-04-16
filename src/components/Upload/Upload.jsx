@@ -10,7 +10,7 @@ import UploadFile from "./UploadFile";
 
 const subjects = [
     "Математика", "Български език", "Литература", "Химия", "Физика", "Биология", "История",
-    "География", "Философия", "Гражданско образование", "ИТ", "Човекът и природата", "Човекът и обществото", 
+    "География", "Философия", "Гражданско образование", "ИТ", "Човекът и природата", "Човекът и обществото",
     "Околен свят", "Английски език", "Немски език", "Руски език", "Испански език", "Френски език", "Програмиране"
 ];
 
@@ -19,27 +19,30 @@ const typeList = [
 ];
 
 const Upload = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+    const [title, setTitle] = useState('');
+    const [grade, setGrade] = useState();
+    const subject = useRef('');
     const type = useRef('');
     let navigate = useNavigate();
-  
+
     const handleAction = (e) => {
         e.preventDefault();
-        console.log(test);
         navigate('/upload_successful');
     }
-  
+
     const getInput = (e) => {
-      if (e.target.id === 'email') {
-        setEmail(e.target.value)
-      }
-      if (e.target.id === 'password') {
-        setPassword(e.target.value)
-      }
-      if (e.target.id === 'type') {
-        type.current = e.target.value
-      }
+        if (e.target.id === 'title') {
+            setTitle(e.target.value)
+        }
+        if (e.target.id === 'grade') {
+            setGrade(e.target.value)
+        }
+        if (e.target.id === 'subject') {
+            subject.current = e.target
+        }
+        if (e.target.id === 'type') {
+            type.current = e.target
+        }
     }
 
     return (
@@ -72,6 +75,7 @@ const Upload = () => {
                                         placeholder='избери вид'
                                         list='types'
                                         ref={type}
+                                        onChange={getInput}
                                     />
                                     <datalist id='types'>
                                         {typeList.map((type, index) => (<option value={type} key={index} />))}
@@ -84,7 +88,7 @@ const Upload = () => {
                                     type='text'
                                     className={`w-full h-full resize-none p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                                     id='description'
-                                    placeholder='тук се намира своето описание'
+                                    placeholder='описание на материала'
                                     resizable='false'
                                     onChange={getInput}
                                 />
@@ -93,11 +97,12 @@ const Upload = () => {
                         <div>
                             <label htmlFor='subjects'>предмет</label>
                             <input
-                                type='text'
+                                type='dropdown'
                                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                                 id='subject'
                                 placeholder='предмет'
                                 list='subjects'
+                                ref={subject}
                                 onChange={getInput}
                             />
                             <datalist id='subjects'>
