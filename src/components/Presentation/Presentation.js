@@ -11,24 +11,24 @@
 } */
 
 const Presentation = ({ title, thumbnail }) => {
-  return (
-    <div className="presentation flex-initial w-full">
-      <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
-        <div className="presentation__content-thumbnail">
-          <img
-            src={thumbnail}
-            alt={title}
-            className="rounded-2xl border dark:border-slate-800"
-          />
-        </div>
-        <div className="presentation__content-title bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
-          <h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">
-            {title}
-          </h2>
+    return (
+      <div className="presentation flex-initial w-full">
+        <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
+          <div className="presentation__content-thumbnail">
+            <img
+              src={thumbnail}
+              alt={title}
+              className="rounded-2xl border w-full dark:border-slate-800"
+            />
+          </div>
+          <div className="presentation__content-title bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
+            <h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">
+              {title}
+            </h2>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default Presentation;
+    );
+  };
+  
+  export default Presentation;
