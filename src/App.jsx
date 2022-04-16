@@ -9,6 +9,7 @@ import Materials from './components/Materials/Materials';
 import Trend from './components/Trend/Trend';
 import User from './components/User/User';
 import Login from './components/Login/Login';
+import Logout from './components/Login/Logout';
 import Register from './components/Register/Register';
 import Upload from './components/Upload/Upload';
 
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="/trend" element={<Trend />} />
 
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
+          <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
           <Route path="/user/:id" element={<User />} />
           <Route path="*" element={<Error404 />} />
