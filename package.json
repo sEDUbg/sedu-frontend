@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/eslint-parser": "^7.17.0",
     "@craco/craco": "^6.4.3",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
@@ -51,5 +52,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-react": "^7.16.7",
+    "eslint": "^8.13.0"
   }
 }

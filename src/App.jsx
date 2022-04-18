@@ -52,7 +52,7 @@ const App = () => {
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-          <Route path="/user/:id" element={<User />} />
+          <Route path="/user/id=:id" element={<User />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </main>

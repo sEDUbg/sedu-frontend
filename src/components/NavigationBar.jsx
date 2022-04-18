@@ -102,8 +102,8 @@ const NavigationBar = (isLoggedInObject) => {
                                 <div className="flex-shrink-0">
                                     <img
                                         className="h-8 w-8"
-                                        src="sedubg.png"
-                                        alt="Workflow"
+                                        src="/sedubg.png"
+                                        alt="sedubg logo"
                                     />
                                 </div>
                                 <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
