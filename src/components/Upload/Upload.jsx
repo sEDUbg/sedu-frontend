@@ -47,7 +47,7 @@ const Upload = () => {
 
     return (
         <div className="w-screen flex bg-gray-bg1 dark:text-white p-5">
-            <div className='w-full max-w-xl m-auto bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default py-10 px-16 divide-y divide-slate-600 space-y-4'>
+            <div className='w-full max-w-xl m-auto bg-gray-100 dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default py-10 px-16 divide-y divide-neutral-200 dark:divide-slate-600 space-y-4'>
                 <div className='text-center flex items-center justify-center space-x-2'>
                     <img src='sedubg.png' alt='logo' className='w-12' />
                     <h1 className='text-2xl font-black'>качване на материал</h1>

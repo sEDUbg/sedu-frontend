@@ -85,10 +85,10 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
   return (
     <div className='h-screen w-screen flex bg-gray-bg1 dark:text-white p-5'>
       <div className='w-full max-w-md m-auto bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default py-10 px-16 divide-y divide-slate-600 space-y-4'>
-        <div className='text-center flex items-center justify-center space-x-2'>
+        <a href='/' className='text-center flex items-center justify-center space-x-2'>
           <img src='sedubg.png' alt='logo' className='w-12' />
           <h1 className='text-2xl font-black'>sEDUbg</h1>
-        </div>
+        </a>
         <div className=''>
           <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>
             направи си акаунт 🔐
@@ -97,7 +97,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
           <form onSubmit={handleAction}>
             <div className="flex space-x-5">
               <div>
-                <label htmlFor='firstName'>име</label>
+                <label htmlFor='firstName'>име <span className="text-red-600">*</span></label>
                 <input
                   type='text'
                   className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -107,7 +107,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                 />
               </div>
               <div>
-                <label htmlFor='lastName'>фамилия</label>
+                <label htmlFor='lastName'>фамилия <span className="text-red-600">*</span></label>
                 <input
                   type='text'
                   className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -118,7 +118,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               </div>
             </div>
             <div>
-              <label htmlFor='username'>потребителско име</label>
+              <label htmlFor='username'>потребителско име <span className="text-red-600">*</span></label>
               <input
                 type='text'
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -128,7 +128,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               />
             </div>
             <div>
-              <label htmlFor='email'>имейл</label>
+              <label htmlFor='email'>имейл <span className="text-red-600">*</span></label>
               <input
                 type='email'
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -138,7 +138,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               />
             </div>
             <div>
-              <label htmlFor='password'>парола</label>
+              <label htmlFor='password'>парола <span className="text-red-600">*</span></label>
               <input
                 type='password'
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -152,7 +152,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               />
             </div>
             <div>
-              <label htmlFor='2ndpassword'>потвърди паролата си</label>
+              <label htmlFor='2ndpassword'>потвърди паролата си <span className="text-red-600">*</span></label>
               <input
                 type='password'
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -161,6 +161,9 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                 ref={passwordConfirm}
                 onChange={getInput}
               />
+            </div>
+            <div className="text-sm text-gray-500 text-center mt-3">
+                    By creating an account, you agree to the <a className="underline" href="#0">terms & conditions</a>, and our <a className="underline" href="#0">privacy policy</a>.
             </div>
             <ToastContainer id='Toastify' />
             <div className='flex justify-center items-center mt-6'>

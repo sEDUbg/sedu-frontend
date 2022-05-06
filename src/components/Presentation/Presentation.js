@@ -10,16 +10,24 @@
     thubnail: 'present.png',
 } */
 
-const Presentation = ({ title, thumbnail }) => {
+import { useEffect } from 'react';
+
+const Presentation = ({ title, thumbnail , link}) => {
+    useEffect(() => {console.log("YEAH", link)})
+    if(link === undefined)
+      return null;
+
     return (
       <div className="presentation flex-initial w-full">
         <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
           <div className="presentation__content-thumbnail">
-            <img
-              src={thumbnail}
-              alt={title}
-              className="rounded-2xl border w-full dark:border-slate-800"
-            />
+            <iframe
+            src={`https://view.officeapps.live.com/op/embed.aspx?src=${"https://firebasestorage.googleapis.com/v0/b/sedubg-2022.appspot.com/o/Presentations%2FКриптиране.pptx?alt=media&token=ce2a3dc6-def2-4361-8bf9-e4ca056176d1"}`}
+            title="slides"
+            width="100%"
+            height="600px"
+            className="w-full"
+          ></iframe>
           </div>
           <div className="presentation__content-title bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
             <h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">

@@ -1,6 +1,8 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import AOS from 'aos';
+import "aos/dist/aos.css";
 
 import NavigationBar from './components/NavigationBar';
 import LandingPage from './components/Home/LandingPage';
@@ -12,6 +14,7 @@ import Login from './components/Login/Login';
 import Logout from './components/Login/Logout';
 import Register from './components/Register/Register';
 import Upload from './components/Upload/Upload';
+import Present from './components/Presentation/Present';
 
 import { Error404 } from './components/Errors/Errors';
 
@@ -20,6 +23,24 @@ const App = () => {
   const [showNav, setShowNav] = useState(true);
   const [user, setUser] = useState();
   let navigate = useNavigate();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    AOS.init({
+      once: true,
+      disable: 'phone',
+      duration: 700,
+      easing: 'ease-out-cubic',
+    });
+    AOS.refresh();
+  });
+
+  useEffect(() => {
+    document.querySelector('html').style.scrollBehavior = 'auto'
+    window.scroll({ top: 0 })
+    document.querySelector('html').style.scrollBehavior = ''
+  }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
     let authToken = sessionStorage.getItem('Auth Token')
@@ -39,12 +60,12 @@ const App = () => {
   }, [])
 
   return (
-    <div className="min-h-full bg-white dark:bg-black">
+    <div className="min-h-screen bg-white dark:bg-black dark:text-white">
       {showNav ? <NavigationBar isLoggedIn={isLoggedIn} /> : null}
-      <main className='md:flex'>
-        <Routes>
+      <main className='min-h-full'>
+        <Routes className='min-h-full'>
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />
-          <Route path="/presentations" element={<LandingPage />} />
+          <Route path="/presentations" element={<Present />} />
           <Route path="/materials" element={<Materials />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/trend" element={<Trend />} />

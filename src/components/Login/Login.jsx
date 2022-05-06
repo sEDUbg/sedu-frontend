@@ -35,15 +35,14 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
       })
       .catch((error) => {
         console.log(error.code)
-        if (error.code === 'auth/invalid-email') {
-          console.log("AAAAAAAA")
-          toast.error('невалиден имейл адрес');
+        if (error.code === 'auth/invalid-email' && !toast.isActive('invalid-email')) {
+          toast.error('невалиден имейл адрес', { toastId: 'invalid-email' });
         }
-        if (error.code === 'auth/user-not-found') {
-          toast.error('грешен имейл адрес, моля опитайте отново');
+        if (error.code === 'auth/user-not-found' && !toast.isActive('user-not-found')) {
+          toast.error('грешен имейл адрес, моля опитайте отново', { toastId: 'user-not-found' });
         }
-        if (error.code === 'auth/wrong-password') {
-          toast.error('грешна парола, моля опитайте отново');
+        if (error.code === 'auth/wrong-password' && !toast.isActive('wrong-password')) {
+          toast.error('грешна парола, моля опитайте отново', { toastId: 'wrong-password' });
         }
       })
 
