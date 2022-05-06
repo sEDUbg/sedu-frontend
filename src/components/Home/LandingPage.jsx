@@ -66,7 +66,7 @@ const LandingPage = () => {
           <div>
             <div className="relative flex justify-center mb-8" data-aos="zoom-y-out" data-aos-delay="450">
               <div className="flex flex-col justify-center rounded-xl">
-                <iframe className="rounded-xl" width="768" height="432" src="https://www.youtube.com/embed/mwL1noMFx-E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" fs="0" modestbranding="1"></iframe>
+                <iframe className="rounded-xl" width="768" height="432" src="https://www.youtube.com/embed/mwL1noMFx-E" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" fs="0" modestbranding="1"></iframe>
               </div>
               <a className="absolute top-full flex items-center transform -translate-y-1/2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-full font-medium group p-4 shadow-lg" href="https://youtu.be/mwL1noMFx-E">
                 <svg className="w-6 h-6 fill-current text-gray-400 group-hover:text-slate-300 flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -300,7 +300,7 @@ const LandingPage = () => {
                     <p>0.00лв.</p>
                     
                     <div>
-                      
+
                     </div>
 
                   </div>
