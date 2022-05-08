@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { app } from '../Firebase/firebase';
-import { doc, getDoc } from "firebase/firestore";
 
+import { app } from '../utils/Firebase/firebase';
+import { doc, getDoc } from "firebase/firestore";
 
 const User = () => {
   const [userData, setUserData] = useState(null);

@@ -1,12 +1,12 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { app } from '../Firebase/firebase';
-import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
-import { getFirestore, getDoc, doc, query } from "firebase/firestore";
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 
-import UploadFile from "./UploadFile";
+import { app } from '../utils/Firebase/firebase';
+import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
+import { getFirestore, getDoc, doc, query } from "firebase/firestore";
+
+import UploadFile from "../partials/Upload/UploadFile";
 
 const subjects = [
     "Математика", "Български език", "Литература", "Химия", "Физика", "Биология", "История",

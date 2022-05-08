@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import HeroImage from './hero-image.png'; 
-import Transition from './Trans';
 import React, { useRef, useEffect, useContext , useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import Transition from '../utils/Trans';
 
 
 const LandingPage = () => {

@@ -1,7 +1,6 @@
 import Comment from './Comment'
 import * as FontAwesome from 'react-icons/fa'
 
-
 const comments = [
     {
         id: 1,

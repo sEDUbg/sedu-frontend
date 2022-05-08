@@ -1,9 +1,9 @@
 import useFetch from 'react-fetch-hook';
 
-import Presentation from '../Presentation/Presentation';
+import Presentation from '../../pages/Presentation';
 import Author from './Author';
-import Suggestions from '../Suggestions';
-import Comments from '../Comments/Comments';
+import Suggestions from './Suggestions';
+import Comments from './Comments';
 
 const Present = () => {
     const {data: presentation, loading, error} = useFetch("data/presentation.json");

@@ -1,10 +1,10 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { app } from '../Firebase/firebase';
-import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
-import { getFirestore, getDoc, doc, query } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
+
+import { app } from '../utils/Firebase/firebase';
+import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
+import { getFirestore, getDoc, doc, query } from "firebase/firestore";
 
 const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
   const [email, setEmail] = useState('');

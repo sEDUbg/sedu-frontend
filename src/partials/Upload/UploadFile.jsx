@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { FileDrop } from 'react-file-drop';
-import { app } from '../Firebase/firebase';
+import { app } from '../../utils/Firebase/firebase';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const fileTypes = ["JPG", "PNG", "GIF", "MP4", "PPTX", "PDF", "DOCX", "XLSX"];

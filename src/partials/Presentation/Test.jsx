@@ -1,9 +1,9 @@
 import useFetch from 'react-fetch-hook';
 
 import Presentation from 'Presentation';
-import Author from 'Author';
-import Suggestions from '../Suggestions';
-import Comments from '../Comments/Comments';
+import Author from './Author';
+import Suggestions from './Suggestions';
+import Comments from './Comments';
 
 const LandingPage = () => {
     const {data: presentation, loading, error} = useFetch("data/presentation.json");

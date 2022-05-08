@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { app } from '../Firebase/firebase';
-import { getAuth, } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify'
+
+import { app } from '../utils/Firebase/firebase';
+import { getAuth, } from 'firebase/auth';
 
 const Logout = ({ setIsLoggedIn, setShowNav, setUser }) => {
     let navigate = useNavigate();

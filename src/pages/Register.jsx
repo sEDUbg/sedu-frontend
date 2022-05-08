@@ -1,10 +1,10 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { app } from '../Firebase/firebase';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { getFirestore, setDoc, doc, Timestamp } from 'firebase/firestore';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
+
+import { app } from '../utils/Firebase/firebase';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { getFirestore, setDoc, doc, Timestamp } from 'firebase/firestore';
 
 const Register = ({ setIsLoggedIn, setShowNav }) => {
   const [email, setEmail] = useState('');

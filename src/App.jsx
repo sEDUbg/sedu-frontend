@@ -1,22 +1,27 @@
-import './App.css';
 import { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import AOS from 'aos';
+
+import './css/App.css';
 import "aos/dist/aos.css";
 
-import NavigationBar from './components/NavigationBar';
-import LandingPage from './components/Home/LandingPage';
-import Home from './components/Home/Home';
-import Materials from './components/Materials/Materials';
-import Trend from './components/Trend/Trend';
-import User from './components/User/User';
-import Login from './components/Login/Login';
-import Logout from './components/Login/Logout';
-import Register from './components/Register/Register';
-import Upload from './components/Upload/Upload';
-import Present from './components/Presentation/Present';
+import NavigationBar from './partials/NavigationBar';
 
-import { Error404 } from './components/Errors/Errors';
+import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
+
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import Register from './pages/Register';
+
+import Materials from './pages/Materials';
+import Present from './partials/Presentation/Present';
+import Trend from './pages/Trend';
+import User from './pages/User';
+
+import Upload from './pages/Upload';
+
+import { Error404 } from './utils/Errors';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
