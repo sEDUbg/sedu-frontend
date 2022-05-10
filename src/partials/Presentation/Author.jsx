@@ -22,7 +22,7 @@ const Author = ({presentation}) => {
     }, []) */
 
     return (
-        <div className="presentation__author bg-gray-100 dark:bg-slate-900 rounded-2xl p-5 dark:text-white divide-y dark:divide-slate-800 space-y-4 border dark:border-slate-800">
+        <div className="presentation__author min-w-fit bg-gray-100 dark:bg-slate-900 rounded-2xl p-5 dark:text-white divide-y dark:divide-slate-800 space-y-4 border dark:border-slate-800">
             <div className='flex space-x-4'>
                 <img className="flex-initial w-1/3 rounded-full border dark:border-slate-800" src={presentation?.author.imageUrl} alt={presentation?.author.name}/>
                 <div className="flex-initial presentation__author-info space-y-4">

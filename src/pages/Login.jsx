@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { app } from '../utils/Firebase/firebase';
 import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
@@ -9,6 +10,7 @@ import { getFirestore, getDoc, doc, query } from "firebase/firestore";
 const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false);
   let navigate = useNavigate();
 
   const handleAction = (e) => {
@@ -57,6 +59,8 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
     }
   }
 
+  const togglePassword = () => { setShowPassword(!showPassword); };
+
 
   useEffect(() => {
     setShowNav(false);
@@ -87,13 +91,20 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
             </div>
             <div>
               <label htmlFor='парола'>парола</label>
-              <input
-                type='password'
-                className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
-                id='password'
-                placeholder='твоята парола'
-                onChange={getInput}
-              />
+              <div className='flex items-center'>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
+                  id='password'
+                  placeholder='твоята парола'
+                  onChange={getInput}
+                />
+                <div className="input-group-btn">
+                  <button className="btn btn-outline-primary" onClick={togglePassword} type="button">
+                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                  </button>
+                </div>
+              </div>
             </div>
             <ToastContainer />
             <div className='flex justify-center items-center mt-6'>
