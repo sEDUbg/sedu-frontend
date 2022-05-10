@@ -4,8 +4,6 @@ import Presentation from '../../pages/Presentation';
 import Author from './Author';
 import Suggestions from './Suggestions';
 import Comments from './Comments';
-import { app } from '../../utils/Firebase/firebase';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const Present = () => {
     const { data: presentation, loading, error } = useFetch("data/presentation.json");

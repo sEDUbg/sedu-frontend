@@ -2,17 +2,14 @@ import { Fragment } from 'react'
 import { Link } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { doc, getDoc } from 'firebase/firestore';
 
-const user = {
-    name: 'Калоян Дойчинов',
-    email: 'kaloyan@sedubg.com',
-    imageUrl:
-        'https://avatars.cloudflare.steamstatic.com/b4a5d7f1473151316410c1307822efd74ec5a87b_full.jpg',
-}
+
 
 const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
 const NavigationBar = (isLoggedInObject) => {
+
 
     const title = 'sEDUbg'
     const userID = sessionStorage.getItem('User ID');
@@ -42,7 +39,12 @@ const NavigationBar = (isLoggedInObject) => {
     ] : null;
 
     const Usr = () => {
-
+        const user = {
+            name: sessionStorage.getItem('User Name'),
+            email: sessionStorage.getItem('User Email'),
+            imageUrl:
+                sessionStorage.getItem('ImageUrl') || 'https://via.placeholder.com/150',
+        }
         if (isLoggedIn) return (
             <div className="ml-4 flex items-center md:ml-6">
                 <button
