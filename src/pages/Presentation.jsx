@@ -18,7 +18,7 @@ const Presentation = ({ title, thumbnail, link }) => {
   useEffect(() => { console.log("YEAH", link) })
   const docs = [
     {
-      uri: "https://firebasestorage.googleapis.com/v0/b/sedubg-2022.appspot.com/o/Presentations%2FSmart_Coffee_Machine%20(1).pptx?alt=media&token=ef4438a7-4045-4e76-8c33-7908e527c0f8",
+      uri: "https://storage.googleapis.com/sedubg-2022.appspot.com/Presentations/Smart_Coffee_Machine.pptx",
       fileType: "pptx",
     }
   ]
