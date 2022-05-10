@@ -12,6 +12,7 @@
 
 import { useEffect } from 'react';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import * as FontAwesome from 'react-icons/fa'
 
 const Presentation = ({ title, thumbnail, link }) => {
   useEffect(() => { console.log("YEAH", link) })
@@ -30,10 +31,14 @@ const Presentation = ({ title, thumbnail, link }) => {
         <div className="presentation__content-thumbnail">
           <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} />
         </div>
-        <div className="presentation__content-title bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
+        <div className="presentation__content-title flex item-center justify-between bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
           <h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">
             {title}
           </h2>
+          <div className="presentation__content-title-actions flex items-center">
+            <div></div>
+            <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full"><FontAwesome.FaFileDownload /></a>
+          </div>
         </div>
       </div>
     </div>
