@@ -5,9 +5,9 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { app } from '../utils/Firebase/firebase';
 import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
-import { getFirestore, getDoc, doc, query } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
-const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
+const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false);
@@ -19,21 +19,20 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser}) => {
     console.log(authentication);
     signInWithEmailAndPassword(authentication, email, password)
       .then((response) => {
-        // response.user.uid;
-        //console.log(response.user.uid);
         sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
         console.log(authentication.currentUser.uid);
         sessionStorage.setItem('User ID', authentication.currentUser.uid);
+        const user_doc = doc(getFirestore(app), 'User_info', authentication.currentUser.uid);
+        getDoc(user_doc)
+          .then((response) => {
+            sessionStorage.setItem('ImageUrl', response.data().profileUrl);
+            sessionStorage.setItem('User Name', response.data().FirstName + ' ' + response.data().LastName);
+            sessionStorage.setItem('User Email', email);
+          });
         setUser(authentication.currentUser.uid);
         setIsLoggedIn(true);
         setShowNav(true);
         navigate('/');
-        // const firestore = getFirestore(app);
-        // const docRef = doc(firestore, 'User_info', response.user.uid);
-        // getDoc(docRef)
-        //   .then((doc) => {
-        //     console.log(doc.data);
-        //   });
       })
       .catch((error) => {
         console.log(error.code)

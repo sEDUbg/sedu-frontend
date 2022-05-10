@@ -13,6 +13,9 @@ const Logout = ({ setIsLoggedIn, setShowNav, setUser }) => {
         console.log(auth);
         sessionStorage.setItem('Auth Token', '');
         sessionStorage.setItem('User ID', '');
+        sessionStorage.setItem('User Name', '');
+        sessionStorage.setItem('User Email', '');
+        sessionStorage.setItem('ImageUrl', '');
         setUser(0);
         setIsLoggedIn(false);
         setShowNav(true);

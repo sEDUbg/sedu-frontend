@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 
+import { FileDrop } from 'react-file-drop';
 import { app } from '../utils/Firebase/firebase';
-import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
-import { getFirestore, getDoc, doc, query } from "firebase/firestore";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getFirestore, doc, addDoc, collection, updateDoc, arrayUnion } from 'firebase/firestore';
+import { getAuth, } from 'firebase/auth';
 
-import UploadFile from "../partials/Upload/UploadFile";
+//import UploadFile from "../partials/Upload/UploadFile";
 
 const subjects = [
     "Математика", "Български език", "Литература", "Химия", "Физика", "Биология", "История",
@@ -19,20 +21,73 @@ const typeList = [
 ];
 
 const Upload = () => {
+    const [progress, setProgress] = useState(0);
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [grade, setGrade] = useState();
+    const [file, setFile] = useState(null);
+    const fileInputRef = useRef(null);
     const subject = useRef('');
     const type = useRef('');
     let navigate = useNavigate();
 
-    const handleAction = (e) => {
-        e.preventDefault();
-        navigate('/upload_successful');
+    const onTargetClick = () => {
+        fileInputRef.current.click()
     }
 
+    const handleAction = (e) => {
+        e.preventDefault();
+        toast.dismiss();
+        if (!title || !description || !grade || !subject.current || !type.current || !file) {
+            if (!toast.isActive('error')) {
+                toast.error('Моля попълнете всички полета!', {
+                    toastId: 'error',
+                    autoClose: 3000,
+                });
+            }
+        } else {
+            const db = getFirestore(app);
+            const collectionRef = collection(db, 'corridor');
+            var corridorRef;
+            addDoc(collectionRef, { origin: '', ref: {} })
+                .then(docRef => {
+                    corridorRef = doc(db, 'corridor', docRef.id);
+                });
+            const auth = getAuth(app);
+            console.log("/User_info/" + auth.currentUser.uid);
+            console.log(file);
+            const storage = getStorage(app);
+            const storageRef = ref(storage, `/Presentations/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed', (snapshot) => {
+                const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                setProgress(progress);
+
+            }, (err) => {
+                console.log(err);
+            }, () => {
+                getDownloadURL(uploadTask.snapshot.ref)
+                    .then(url => {
+                        const presentationsRef = collection(db, 'Presentations');
+                        const userRef = doc(db, 'User_info', auth.currentUser.uid);
+                        const presentationData = { Author: userRef, corridor: corridorRef, file: url, info: { description: description, specs: { class: grade, subject: subject.current.value, type: type.current.value }, stats: { comments: 0, downloads: 0, forks: 0, likes: 0, views: 0 } }, origin: true, title: title };
+                        addDoc(presentationsRef, presentationData)
+                            .then(docRef => {
+                                toast.success("Успешно качено");
+                                updateDoc(corridorRef, { ref: arrayUnion(doc(db, 'Presentations', docRef.id)), origin: docRef.id })
+
+                            });
+                    });
+            });
+        }
+    }
     const getInput = (e) => {
         if (e.target.id === 'title') {
             setTitle(e.target.value)
+        }
+        if (e.target.id === 'description') {
+            setDescription(e.target.value)
         }
         if (e.target.id === 'grade') {
             setGrade(e.target.value)
@@ -44,6 +99,13 @@ const Upload = () => {
             type.current = e.target
         }
     }
+
+    const onFileInputChange = (event) => {
+        const { files } = event.target;
+        console.log(files[0]);
+        setFile(files[0]);
+    }
+
 
     return (
         <div className="w-screen flex bg-gray-bg1 dark:text-white p-5">
@@ -121,7 +183,22 @@ const Upload = () => {
                                 onChange={getInput}
                             />
                         </div>
-                        <UploadFile />
+                        <FileDrop onTargetClick={onTargetClick} className="flex justify-center items-center w-full h-32 px-4 transition bg-white dark:bg-slate-900 border-2 border-gray-300 dark:border-slate-800 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-slate-700 focus:outline-none">
+                            <span className="flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
+                                <span className="font-medium text-gray-600">Drop files to Attach, or <span className="text-blue-600 underline">browse</span>
+                                </span>
+                            </span>
+                        </FileDrop>
+                        <input
+                            onChange={onFileInputChange}
+                            ref={fileInputRef}
+                            type="file"
+                            className="hidden"
+                        />
+                        <h1 className="text-2xl text-center font-black">Progress : {progress}%</h1>
                         <ToastContainer />
                         <div className='flex justify-center items-center mt-6'>
                             <button
