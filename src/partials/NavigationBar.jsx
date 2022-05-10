@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { doc, getDoc } from 'firebase/firestore';
 
+import def_profile_pic from '../user-solid.svg';
 
 
 const classNames = (...classes) => classes.filter(Boolean).join(' ');
@@ -41,7 +42,7 @@ const NavigationBar = (isLoggedInObject) => {
         name: sessionStorage.getItem('User Name'),
         email: sessionStorage.getItem('User Email'),
         imageUrl:
-            sessionStorage.getItem('ImageUrl') || 'https://via.placeholder.com/150',
+            sessionStorage.getItem('ImageUrl') || def_profile_pic,
     }
     const Usr = () => {
 
