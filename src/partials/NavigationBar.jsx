@@ -37,14 +37,14 @@ const NavigationBar = (isLoggedInObject) => {
         { name: 'настройки', href: '#' },
         { name: 'излез', href: '/logout' },
     ] : null;
-
+    const user = {
+        name: sessionStorage.getItem('User Name'),
+        email: sessionStorage.getItem('User Email'),
+        imageUrl:
+            sessionStorage.getItem('ImageUrl') || 'https://via.placeholder.com/150',
+    }
     const Usr = () => {
-        const user = {
-            name: sessionStorage.getItem('User Name'),
-            email: sessionStorage.getItem('User Email'),
-            imageUrl:
-                sessionStorage.getItem('ImageUrl') || 'https://via.placeholder.com/150',
-        }
+
         if (isLoggedIn) return (
             <div className="ml-4 flex items-center md:ml-6">
                 <button
