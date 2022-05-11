@@ -25,11 +25,15 @@ import TOS from './pages/Legal/TOS';
 import Privacy from './pages/Legal/Privacy';
 
 import { Error404 } from './utils/Errors';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { app } from './utils/Firebase/firebase';
 
 const App = () => {
+  const [user, loading, error] = useAuthState(getAuth(app));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showNav, setShowNav] = useState(true);
-  const [user, setUser] = useState();
+  const [User, setUser] = useState();
   let navigate = useNavigate();
 
   const location = useLocation();
@@ -51,21 +55,17 @@ const App = () => {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
-    let authToken = sessionStorage.getItem('Auth Token')
-
-    if (authToken) {
+    console.log(user);
+    if (user !== null) {
       setIsLoggedIn(true)
-      let usr = sessionStorage.getItem('User ID');
-      console.log(usr);
-      setUser(usr)
-      console.log("hmm", user)
+      setUser(user.uid)
     } else {
       setIsLoggedIn(false)
       setUser(null)
     }
 
 
-  }, [])
+  }, [user])
 
   // [TODO] Implement Protected Routes -> https://www.robinwieruch.de/react-router-private-routes/
 

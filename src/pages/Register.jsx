@@ -39,13 +39,14 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
           school: "",
 
         }
-        setDoc(doc(firestore, 'User_info', response.user.uid), user_info);
+        setDoc(doc(firestore, 'StripeCustomers', response.user.uid), user_info);
         sendEmailVerification(authentication.currentUser)
           .then(() => {
             toast.success('Вашият акаунт е създаден, моля проверете вашият имейл адрес за потвърждение');
-            sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+            sessionStorage.setItem('User ID', authentication.currentUser.uid);
             setIsLoggedIn(true);
             setShowNav(true);
+            navigate('/');
           })
           .catch((error) => {
             console.log(error);
