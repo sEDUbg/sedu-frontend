@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { app } from '../utils/Firebase/firebase';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
@@ -11,6 +12,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const password = useRef('');
   const passwordConfirm = useRef('');
   const toastId = useRef(null);
@@ -78,6 +80,8 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
 
   }
 
+  const togglePassword = () => { setShowPassword(!showPassword); };
+
   useEffect(() => {
     setShowNav(false);
   }, [])
@@ -90,7 +94,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
           <h1 className='text-2xl font-black'>sEDUbg</h1>
         </a>
         <div className=''>
-          <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>
+          <h1 className='text-2xl font-medium text-primary mt-4 mb-4 text-center'>
             направи си акаунт 🔐
           </h1>
 
@@ -139,31 +143,45 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
             </div>
             <div>
               <label htmlFor='password'>парола <span className="text-red-600">*</span></label>
-              <input
-                type='password'
-                className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
-                id='password'
-                placeholder='твоята парола'
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                minlength='8'
-                required
-                ref={password}
-                onChange={getInput}
-              />
+              <div className='flex items-center justify-between space-x-3'>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
+                  id='password'
+                  placeholder='твоята парола'
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                  minlength='8'
+                  required
+                  ref={password}
+                  onChange={getInput}
+                />
+                <div className="input-group-btn">
+                  <button className="btn btn-outline-primary flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
+                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                  </button>
+                </div>
+              </div>
             </div>
             <div>
               <label htmlFor='2ndpassword'>потвърди паролата си <span className="text-red-600">*</span></label>
-              <input
-                type='password'
-                className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
-                id='2ndpassword'
-                placeholder='твоята парола'
-                ref={passwordConfirm}
-                onChange={getInput}
-              />
+              <div className='flex items-center justify-between space-x-3'>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
+                  id='2ndpassword'
+                  placeholder='твоята парола'
+                  ref={passwordConfirm}
+                  onChange={getInput}
+                />
+                <div className="input-group-btn">
+                  <button className="btn btn-outline-primary flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
+                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                  </button>
+                </div>
+              </div>
             </div>
             <div className="text-sm text-gray-500 text-center mt-3">
-                    By creating an account, you agree to the <a className="underline" href="#0">terms & conditions</a>, and our <a className="underline" href="#0">privacy policy</a>.
+              Създавайки акаунт, вие се съгласявате с <a className="underline" href="#0">общите условия</a> и нашата <a className="underline" href="#0">политика за поверителност</a>.
             </div>
             <ToastContainer id='Toastify' />
             <div className='flex justify-center items-center mt-6'>

@@ -21,15 +21,22 @@ const Presentation = ({ title, thumbnail, link }) => {
       uri: "https://storage.googleapis.com/sedubg-2022.appspot.com/Presentations/Smart_Coffee_Machine.pptx",
       fileType: "pptx",
     }
-  ]
+  ];
+
+  const docs_conf = {
+    header: {
+      disableHeader: true,
+      disableFileName: true,
+    },
+  };
   if (link === undefined)
     return null;
 
   return (
     <div className="presentation flex-initial w-full">
       <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
-        <div className="presentation__content-thumbnail">
-          <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} />
+        <div className="presentation__content-thumbnail rounded-2xl overflow-hidden">
+          <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} config={docs_conf} className="rounded-2xl aspect-[17/10]" />
         </div>
         <div className="presentation__content-title flex item-center justify-between bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
           <h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">

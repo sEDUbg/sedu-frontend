@@ -7,7 +7,10 @@ module.exports = {
       colors: {
       'accent-color': "#121E37",
       },
+      aspectRatio: {
+        '17/10': '17 / 10',
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-responsive-embed"),],
 }

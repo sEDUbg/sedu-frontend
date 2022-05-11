@@ -1,3 +1,5 @@
+// [TODO] Add dynamic suggestions
+
 const suggestions = [
     {title: 'Ню Йорк сити', url: '#', thubnail: 'seduthumb.png', authors: ['Калоян Дойчинов и ', 'Алеко Георгиев']},
     {title: 'Ню Йорк сити', url: '#', thubnail: 'seduthumb.png', authors: ['Калоян Дойчинов и ', 'Алеко Георгиев']},

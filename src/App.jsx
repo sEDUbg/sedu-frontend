@@ -21,6 +21,9 @@ import User from './pages/User';
 
 import Upload from './pages/Upload';
 
+import TOS from './pages/Legal/TOS';
+import Privacy from './pages/Legal/Privacy';
+
 import { Error404 } from './utils/Errors';
 
 const App = () => {
@@ -64,21 +67,29 @@ const App = () => {
 
   }, [])
 
+  // [TODO] Implement Protected Routes -> https://www.robinwieruch.de/react-router-private-routes/
+
   return (
     <div className="min-h-screen bg-white dark:bg-black dark:text-white">
       {showNav ? <NavigationBar isLoggedIn={isLoggedIn} /> : null}
       <main className='min-h-full'>
         <Routes className='min-h-full'>
-          <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />
+          <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage setShowNav={setShowNav} />} />
           <Route path="/presentations" element={<Present />} />
           <Route path="/materials" element={<Materials />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/trend" element={<Trend />} />
 
+          <Route path="/materials/uuid=:uuid" /* element={<Present />} */ />
+
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
           <Route path="/user/id=:id" element={<User />} />
+
+          <Route path="/tos" element={<TOS />} />
+          <Route path="/privacy" element={<Privacy />} />
+      
           <Route path="*" element={<Error404 />} />
         </Routes>
       </main>

@@ -7,6 +7,8 @@ import { app } from '../utils/Firebase/firebase';
 import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
+// [TODO]: Implement https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/gister
+
 const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
@@ -60,7 +62,6 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
 
   const togglePassword = () => { setShowPassword(!showPassword); };
 
-
   useEffect(() => {
     setShowNav(false);
   }, [])
@@ -73,7 +74,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
           <h1 className='text-2xl font-black'>sEDUbg</h1>
         </div>
         <div className=''>
-          <h1 className='text-2xl font-medium text-primary mt-4 mb-12 text-center'>
+          <h1 className='text-2xl font-medium text-primary mt-4 mb-6 text-center'>
             влез с акаунта си 🔐
           </h1>
 
@@ -90,7 +91,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
             </div>
             <div>
               <label htmlFor='парола'>парола</label>
-              <div className='flex items-center'>
+              <div className='flex items-center justify-between space-x-3'>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
@@ -99,11 +100,14 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
                   onChange={getInput}
                 />
                 <div className="input-group-btn">
-                  <button className="btn btn-outline-primary" onClick={togglePassword} type="button">
+                  <button className="btn btn-outline-primary flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
                   { showPassword ? <FaEye /> : <FaEyeSlash /> }
                   </button>
                 </div>
               </div>
+            </div>
+            <div /* TODO */ className="text-sm text-gray-500 dark:hover:text-gray-200 text-center mt-3 cursor-pointer">
+              <a>забравена парола?</a>
             </div>
             <ToastContainer />
             <div className='flex justify-center items-center mt-6'>

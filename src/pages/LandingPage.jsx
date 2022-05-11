@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Transition from '../utils/Trans';
 
 
-const LandingPage = () => {
+const LandingPage = ({ setShowNav }) => {
   const [tab, setTab] = useState(1);
 
   const tabs = useRef(null);
@@ -16,6 +16,7 @@ const LandingPage = () => {
   }
 
   useEffect(() => {
+    setShowNav(true);
     heightFix()
     // 
   }, [tab])
@@ -65,7 +66,7 @@ const LandingPage = () => {
           {/* Hero image */}
           <div>
             <div className="relative flex justify-center mb-8" data-aos="zoom-y-out" data-aos-delay="450">
-              <div className="flex flex-col justify-center rounded-xl">
+              <div className="flex flex-col justify-center rounded-xl aspect-video">
                 <iframe className="rounded-xl" width="768" height="432" src="https://www.youtube.com/embed/mwL1noMFx-E" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" fs="0" modestbranding="1"></iframe>
               </div>
               <a className="absolute top-full flex items-center transform -translate-y-1/2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-full font-medium group p-4 shadow-lg" href="https://youtu.be/mwL1noMFx-E">
