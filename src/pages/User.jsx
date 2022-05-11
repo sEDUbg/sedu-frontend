@@ -22,7 +22,7 @@ const User = () => {
   }
 
   const getData = async () => {
-    const docRef = doc(app, "User_info", id);
+    const docRef = doc(app, 'StripeCustomers', id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {

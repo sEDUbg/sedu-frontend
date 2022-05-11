@@ -70,7 +70,7 @@ const Upload = () => {
                 getDownloadURL(uploadTask.snapshot.ref)
                     .then(url => {
                         const presentationsRef = collection(db, 'Presentations');
-                        const userRef = doc(db, 'User_info', auth.currentUser.uid);
+                        const userRef = doc(db, 'StripeCustomers', auth.currentUser.uid);
                         const presentationData = { Author: userRef, corridor: corridorRef, file: url, info: { description: description, specs: { class: grade, subject: subject.current.value, type: type.current.value }, stats: { comments: 0, downloads: 0, forks: 0, likes: 0, views: 0 } }, origin: true, title: title };
                         addDoc(presentationsRef, presentationData)
                             .then(docRef => {

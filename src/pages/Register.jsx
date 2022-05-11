@@ -37,13 +37,14 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
           school: "",
 
         }
-        setDoc(doc(firestore, 'User_info', response.user.uid), user_info);
+        setDoc(doc(firestore, 'StripeCustomers', response.user.uid), user_info);
         sendEmailVerification(authentication.currentUser)
           .then(() => {
             toast.success('Вашият акаунт е създаден, моля проверете вашият имейл адрес за потвърждение');
-            sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+            sessionStorage.setItem('User ID', authentication.currentUser.uid);
             setIsLoggedIn(true);
             setShowNav(true);
+            navigate('/');
           })
           .catch((error) => {
             console.log(error);
@@ -163,7 +164,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               />
             </div>
             <div className="text-sm text-gray-500 text-center mt-3">
-                    By creating an account, you agree to the <a className="underline" href="#0">terms & conditions</a>, and our <a className="underline" href="#0">privacy policy</a>.
+              By creating an account, you agree to the <a className="underline" href="#0">terms & conditions</a>, and our <a className="underline" href="#0">privacy policy</a>.
             </div>
             <ToastContainer id='Toastify' />
             <div className='flex justify-center items-center mt-6'>

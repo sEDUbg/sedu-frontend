@@ -13,9 +13,12 @@
 import { useEffect } from 'react';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import * as FontAwesome from 'react-icons/fa'
+import isPremium from './../utils/stripe/isPremium';
+import { getAuth } from 'firebase/auth';
+import { app } from '../utils/Firebase/firebase';
 
 const Presentation = ({ title, thumbnail, link }) => {
-  useEffect(() => { console.log("YEAH", link) })
+  useEffect(() => { const user = isPremium(); console.log(getAuth(app)) })
   const docs = [
     {
       uri: "https://storage.googleapis.com/sedubg-2022.appspot.com/Presentations/Smart_Coffee_Machine.pptx",

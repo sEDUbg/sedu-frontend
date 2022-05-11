@@ -4,10 +4,10 @@ import { ToastContainer, toast } from 'react-toastify'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { app } from '../utils/Firebase/firebase';
-import { getAuth, signInWithEmailAndPassword, } from 'firebase/auth';
+import { browserLocalPersistence, getAuth, setPersistence, signInWithEmailAndPassword, } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
-const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
+const Login = ({ setIsLoggedIn, setShowNav }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false);
@@ -17,35 +17,39 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
     e.preventDefault();
     const authentication = getAuth(app);
     console.log(authentication);
-    signInWithEmailAndPassword(authentication, email, password)
-      .then((response) => {
-        sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
-        console.log(authentication.currentUser.uid);
-        sessionStorage.setItem('User ID', authentication.currentUser.uid);
-        const user_doc = doc(getFirestore(app), 'User_info', authentication.currentUser.uid);
-        getDoc(user_doc)
+    setPersistence(authentication, browserLocalPersistence)
+      .then(() => {
+        signInWithEmailAndPassword(authentication, email, password)
           .then((response) => {
-            sessionStorage.setItem('ImageUrl', response.data().profileUrl);
-            sessionStorage.setItem('User Name', response.data().FirstName + ' ' + response.data().LastName);
-            sessionStorage.setItem('User Email', email);
-          });
-        setUser(authentication.currentUser.uid);
-        setIsLoggedIn(true);
-        setShowNav(true);
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error.code)
-        if (error.code === 'auth/invalid-email' && !toast.isActive('invalid-email')) {
-          toast.error('невалиден имейл адрес', { toastId: 'invalid-email' });
-        }
-        if (error.code === 'auth/user-not-found' && !toast.isActive('user-not-found')) {
-          toast.error('грешен имейл адрес, моля опитайте отново', { toastId: 'user-not-found' });
-        }
-        if (error.code === 'auth/wrong-password' && !toast.isActive('wrong-password')) {
-          toast.error('грешна парола, моля опитайте отново', { toastId: 'wrong-password' });
-        }
-      })
+            sessionStorage.setItem('User ID', authentication.currentUser.uid);
+            const user_doc = doc(getFirestore(app), 'StripeCustomers', authentication.currentUser.uid);
+            getDoc(user_doc)
+              .then((response) => {
+                sessionStorage.setItem('ImageUrl', response.data().profileUrl);
+                sessionStorage.setItem('User Name', response.data().FirstName + ' ' + response.data().LastName);
+                sessionStorage.setItem('User Email', email);
+              });
+              
+            setIsLoggedIn(true);
+            setShowNav(true);
+            navigate('/');
+          })
+          .catch((error) => {
+            console.log(error.code)
+            if (error.code === 'auth/invalid-email' && !toast.isActive('invalid-email')) {
+              toast.error('невалиден имейл адрес', { toastId: 'invalid-email' });
+            }
+            if (error.code === 'auth/user-not-found' && !toast.isActive('user-not-found')) {
+              toast.error('грешен имейл адрес, моля опитайте отново', { toastId: 'user-not-found' });
+            }
+            if (error.code === 'auth/wrong-password' && !toast.isActive('wrong-password')) {
+              toast.error('грешна парола, моля опитайте отново', { toastId: 'wrong-password' });
+            }
+          })
+      }).catch((error) => {
+        console.log(error.code, error.message);
+      });
+
 
   }
 
@@ -100,7 +104,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
                 />
                 <div className="input-group-btn">
                   <button className="btn btn-outline-primary" onClick={togglePassword} type="button">
-                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </button>
                 </div>
               </div>

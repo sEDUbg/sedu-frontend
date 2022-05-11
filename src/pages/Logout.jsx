@@ -4,19 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { app } from '../utils/Firebase/firebase';
 import { getAuth, } from 'firebase/auth';
 
-const Logout = ({ setIsLoggedIn, setShowNav, setUser }) => {
+const Logout = ({ setIsLoggedIn, setShowNav }) => {
     let navigate = useNavigate();
 
     useEffect(() => {
         const auth = getAuth(app);
         auth.signOut();
-        console.log(auth);
-        sessionStorage.setItem('Auth Token', '');
         sessionStorage.setItem('User ID', '');
         sessionStorage.setItem('User Name', '');
         sessionStorage.setItem('User Email', '');
         sessionStorage.setItem('ImageUrl', '');
-        setUser(0);
         setIsLoggedIn(false);
         setShowNav(true);
         navigate('/');
