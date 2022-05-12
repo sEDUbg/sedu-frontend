@@ -22,6 +22,7 @@ const typeList = [
 
 const Upload = () => {
     const [progress, setProgress] = useState(0);
+    const [fileName, setFileName] = useState("");
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [grade, setGrade] = useState();
@@ -52,12 +53,29 @@ const Upload = () => {
             addDoc(collectionRef, { origin: '', ref: {} })
                 .then(docRef => {
                     corridorRef = doc(db, 'corridor', docRef.id);
+                }).catch(err => {
+                    console.log(err);
                 });
             const auth = getAuth(app);
-            console.log("/User_info/" + auth.currentUser.uid);
+            console.log("/StripeCustomers/" + auth.currentUser.uid);
             console.log(file);
             const storage = getStorage(app);
-            const storageRef = ref(storage, `/Presentations/${file.name}`);
+            //const storageRef = ref(storage, `/Presentations/${file.name}`);
+            var path;
+            if (type.current.value === "презентация") {
+                path = 'Presentations';
+            } else if (type.current.value === "текстов документ") {
+                path = 'Documents';
+            } else if (type.current.value === "анимация") {
+                path = 'Animations';
+            } else if (type.current.value === "видео") {
+                path = 'Videos';
+            } else if (type.current.value === "снимки") {
+                path = 'Pictures';
+            } else {
+                path = 'Other';
+            }
+            const storageRef = ref(storage, path + '/' + file.name);
             const uploadTask = uploadBytesResumable(storageRef, file);
 
             uploadTask.on('state_changed', (snapshot) => {
@@ -67,18 +85,22 @@ const Upload = () => {
             }, (err) => {
                 console.log(err);
             }, () => {
-                getDownloadURL(uploadTask.snapshot.ref)
-                    .then(url => {
-                        const presentationsRef = collection(db, 'Presentations');
-                        const userRef = doc(db, 'StripeCustomers', auth.currentUser.uid);
-                        const presentationData = { Author: userRef, corridor: corridorRef, file: url, info: { description: description, specs: { class: grade, subject: subject.current.value, type: type.current.value }, stats: { comments: 0, downloads: 0, forks: 0, likes: 0, views: 0 } }, origin: true, title: title };
-                        addDoc(presentationsRef, presentationData)
-                            .then(docRef => {
-                                toast.success("Успешно качено");
-                                updateDoc(corridorRef, { ref: arrayUnion(doc(db, 'Presentations', docRef.id)), origin: docRef.id })
+                const url = 'https://storage.googleapis.com/sedubg-2022.appspot.com/' + path + '/' + file.name;
 
-                            });
+                console.log(url);
+                const presentationsRef = collection(db, path);
+                const userRef = doc(db, 'StripeCustomers', auth.currentUser.uid);
+                const presentationData = { Author: userRef, corridor: corridorRef, file: url, info: { description: description, specs: { class: grade, subject: subject.current.value }, stats: { comments: 0, downloads: 0, forks: 0, likes: 0, views: 0 } }, origin: true, title: title };
+                addDoc(presentationsRef, presentationData)
+                    .then(docRef => {
+
+                        updateDoc(corridorRef, { ref: arrayUnion(doc(db, path, docRef.id)), origin: docRef.id })
+                            .then(() => {
+                                toast.success("Успешно качено");
+                            })
+
                     });
+
             });
         }
     }
@@ -102,8 +124,15 @@ const Upload = () => {
 
     const onFileInputChange = (event) => {
         const { files } = event.target;
-        console.log(files[0]);
+        //console.log(files[0]);
         setFile(files[0]);
+        setFileName(files[0].name);
+    }
+
+    const onDropFile = (event) => {
+        console.log(event[0]);
+        setFile(event[0]);
+        setFileName(event[0].name);
     }
 
 
@@ -183,7 +212,7 @@ const Upload = () => {
                                 onChange={getInput}
                             />
                         </div>
-                        <FileDrop onTargetClick={onTargetClick} className="flex justify-center items-center w-full h-32 px-4 transition bg-white dark:bg-slate-900 border-2 border-gray-300 dark:border-slate-800 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-slate-700 focus:outline-none">
+                        <FileDrop onTargetClick={onTargetClick} onDrop={onDropFile} className="flex justify-center items-center w-full h-32 px-4 transition bg-white dark:bg-slate-900 border-2 border-gray-300 dark:border-slate-800 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 dark:hover:border-slate-700 focus:outline-none">
                             <span className="flex items-center space-x-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -198,7 +227,8 @@ const Upload = () => {
                             type="file"
                             className="hidden"
                         />
-                        <h1 className="text-2xl text-center font-black">Progress : {progress}%</h1>
+                        <h1 className="text-2xl text-center font-black">{fileName}</h1>
+                        <h1 className="text-2xl text-center font-black">Upload : {progress}%</h1>
                         <ToastContainer />
                         <div className='flex justify-center items-center mt-6'>
                             <button
