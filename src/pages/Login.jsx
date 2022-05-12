@@ -104,7 +104,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
                   onChange={getInput}
                 />
                 <div className="input-group-btn">
-                  <button className="btn btn-outline-primary flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
+                  <button className="btn btn-outline-primary flex items-center dark:text-white bg-gray-100 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
                   { showPassword ? <FaEye /> : <FaEyeSlash /> }
                   </button>
                 </div>

@@ -13,9 +13,9 @@
 import { useEffect } from 'react';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import * as FontAwesome from 'react-icons/fa'
-import isPremium from './../utils/stripe/isPremium';
+import isPremium from '../../utils/stripe/isPremium';
 import { getAuth } from 'firebase/auth';
-import { app } from '../utils/Firebase/firebase';
+import { app } from '../../utils/Firebase/firebase';
 
 const Presentation = ({ title, thumbnail, link }) => {
   useEffect(() => { const user = isPremium(); console.log(getAuth(app)) })
@@ -38,7 +38,7 @@ const Presentation = ({ title, thumbnail, link }) => {
   return (
     <div className="presentation flex-initial w-full">
       <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
-        <div className="presentation__content-thumbnail rounded-2xl overflow-hidden">
+        <div className="presentation__content-thumbnail rounded-2xl overflow-hidden aspect-[17/10] bg-gray-100 dark:bg-slate-900 dark:border-slate-800">
           <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} config={docs_conf} className="rounded-2xl aspect-[17/10]" />
         </div>
         <div className="presentation__content-title flex item-center justify-between bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">

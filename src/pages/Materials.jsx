@@ -13,7 +13,7 @@ const info = {
 
 const Material = ({ info }) => {
     return (
-        <Link to='' className="flex flex-col dark:black dark:hover:bg-slate-900 rounded-2xl cursor-pointer overflow-hidden">
+        <Link to='' className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border">
             <img src={info.thumbnail} className="thumbnail aspect-video rounded-2xl"/>
             <div className="flex items-center p-3 space-x-4">
                 <Link to=''><img src={info.authors[0].imageUrl} className="w-12 block aspect-square rounded-full" /></Link>

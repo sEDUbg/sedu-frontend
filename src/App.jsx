@@ -75,12 +75,13 @@ const App = () => {
       <main className='min-h-full'>
         <Routes className='min-h-full'>
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage setShowNav={setShowNav} />} />
-          <Route path="/presentations" element={<Present />} />
-          <Route path="/materials" element={<Materials />} />
+          <Route path="/presentations" element={<Materials groupBy="presentations" />} />
+          <Route path="/plans" element={<Materials groupBy="plans" />} />
+          <Route path="/materials" element={<Materials groupBy="all"/>} />
           <Route path="/upload" element={<Upload />} />
-          <Route path="/trend" element={<Trend />} />
+          <Route path="/trending" element={<Trend />} />
 
-          <Route path="/materials/uuid=:uuid" /* element={<Present />} */ />
+          <Route path="/materials/uuid=:uuid" element={<Present />} />
 
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />

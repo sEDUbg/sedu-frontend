@@ -37,9 +37,9 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
           mfaSecret: "",
           profileUrl: "",
           school: "",
-
         }
         setDoc(doc(firestore, 'StripeCustomers', response.user.uid), user_info);
+        navigate('/');
         sendEmailVerification(authentication.currentUser)
           .then(() => {
             toast.success('Вашият акаунт е създаден, моля проверете вашият имейл адрес за потвърждение');
@@ -157,7 +157,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                   onChange={getInput}
                 />
                 <div className="input-group-btn">
-                  <button className="btn btn-outline-primary flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
+                  <button className="btn btn-outline-primary flex items-center dark:text-white bg-gray-100 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
                   { showPassword ? <FaEye /> : <FaEyeSlash /> }
                   </button>
                 </div>
@@ -175,7 +175,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                   onChange={getInput}
                 />
                 <div className="input-group-btn">
-                  <button className="btn btn-outline-primary flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
+                  <button className="btn btn-outline-primary flex items-center dark:text-white bg-gray-100 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
                   { showPassword ? <FaEye /> : <FaEyeSlash /> }
                   </button>
                 </div>

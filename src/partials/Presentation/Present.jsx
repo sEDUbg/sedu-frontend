@@ -1,7 +1,7 @@
 import useFetch from 'react-fetch-hook';
 import { Link, useParams } from "react-router-dom";
 
-import Presentation from '../../pages/Presentation';
+import Presentation from './Presentation';
 import Author from './Author';
 import Suggestions from './Suggestions';
 import Comments from './Comments';
@@ -10,7 +10,7 @@ import Comments from './Comments';
 
 const Present = () => {
     const { uuid } = useParams(); // ID to Presentation -> TBU for dynamic parsing
-    const { data: presentation, loading, error } = useFetch("");
+    const { data: presentation, loading, error } = useFetch("data/presentation.json");
 
     if (loading) return <div className="presentation__author bg-gray-100 dark:bg-slate-900 rounded-2xl p-5 dark:text-white divide-y dark:divide-slate-800 space-y-4 border dark:border-slate-800"><div>Loading...</div></div>
 
