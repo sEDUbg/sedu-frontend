@@ -23,6 +23,7 @@ import Upload from './pages/Upload';
 
 import TOS from './pages/Legal/TOS';
 import Privacy from './pages/Legal/Privacy';
+import Search from './pages/Search';
 
 import { Error404 } from './utils/Errors';
 import { getAuth } from 'firebase/auth';
@@ -90,6 +91,7 @@ const App = () => {
 
           <Route path="/tos" element={<TOS />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/search" element={<Search />} />
       
           <Route path="*" element={<Error404 />} />
         </Routes>
