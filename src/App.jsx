@@ -17,7 +17,7 @@ import Register from './pages/Register';
 import Materials from './pages/Materials';
 import Present from './partials/Presentation/Present';
 import Trend from './pages/Trend';
-import User from './pages/User';
+import UserSettings from './pages/UserSettings';
 
 import Upload from './pages/Upload';
 
@@ -78,7 +78,7 @@ const App = () => {
           <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage setShowNav={setShowNav} />} />
           <Route path="/presentations" element={<Materials groupBy="presentations" />} />
           <Route path="/plans" element={<Materials groupBy="plans" />} />
-          <Route path="/materials" element={<Materials groupBy="all"/>} />
+          <Route path="/materials" element={<Materials groupBy="all" />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/trending" element={<Trend />} />
 
@@ -87,12 +87,12 @@ const App = () => {
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-          <Route path="/user/id=:id" element={<User />} />
+          <Route path="/user/id=:id" element={<UserSettings />} />
 
           <Route path="/tos" element={<TOS />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/search" element={<Search />} />
-      
+
           <Route path="*" element={<Error404 />} />
         </Routes>
       </main>

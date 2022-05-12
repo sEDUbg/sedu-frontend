@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { app } from '../utils/Firebase/firebase';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
-const User = () => {
+const UserSettings = () => {
   const [userData, setUserData] = useState(null);
   const { id } = useParams();
 
@@ -22,13 +22,15 @@ const User = () => {
   }
 
   const getData = async () => {
-    const docRef = doc(app, 'StripeCustomers', id);
+    const firestore = getFirestore(app);
+    const docRef = doc(firestore, 'StripeCustomers', id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       console.log(docSnap.data());
       setUserData(docSnap.data());
     } else {
+      console.log('No such document!');
       setUserData(null);
     }
   }
@@ -50,7 +52,7 @@ const User = () => {
                 id='fistName'
                 placeholder='име'
                 onChange={getInput}
-                value={userData?.name.first}
+                value={userData?.FirstName}
                 readOnly={true}
               />
               <input
@@ -58,18 +60,18 @@ const User = () => {
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                 id='lastName'
                 placeholder='фамилия'
-                value={userData?.name.last}
+                value={userData?.LastName}
                 onChange={getInput}
                 readOnly={true}
               />
             </div>
             <div>
-               <input
+              <input
                 type='text'
                 className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                 id='lastName'
                 placeholder='фамилия'
-                value={userData?.name.last}
+                value={userData?.LastName}
                 onChange={getInput}
                 readOnly={true}
               />
@@ -91,4 +93,4 @@ const User = () => {
   )
 }
 
-export default User;
+export default UserSettings;
