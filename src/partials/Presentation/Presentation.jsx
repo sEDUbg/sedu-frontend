@@ -17,12 +17,22 @@ import isPremium from '../../utils/stripe/isPremium';
 import { getAuth } from 'firebase/auth';
 import { app } from '../../utils/Firebase/firebase';
 
-const Presentation = ({ title, thumbnail, link }) => {
+const Presentation = ({ title, type, link }) => {
   useEffect(() => { const user = isPremium(); console.log(getAuth(app)) })
+  var fileType;
+  if (type === 'Presentations') {
+    fileType = 'pptx';
+  } else if (type === 'Documents') {
+    fileType = 'docx';
+  } else if (type === 'Videos') {
+    fileType = 'mp4';
+  } else if (type === 'Images') {
+    fileType = 'png';
+  }
   const docs = [
     {
-      uri: "https://storage.googleapis.com/sedubg-2022.appspot.com/Presentations/Smart_Coffee_Machine.pptx",
-      fileType: "pptx",
+      uri: link,
+      fileType: fileType,
     }
   ];
 
