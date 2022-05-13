@@ -17,17 +17,23 @@ import isPremium from '../../utils/stripe/isPremium';
 import { getAuth } from 'firebase/auth';
 import { app } from '../../utils/Firebase/firebase';
 
-const Presentation = ({ title, type, link }) => {
+const Presentation = ({ title, type, link, likes, dislikes }) => {
   useEffect(() => { const user = isPremium(); console.log(getAuth(app)) })
-  var fileType;
+  let fileType, category;
+
+  // to be replaced with dictionary
   if (type === 'Presentations') {
     fileType = 'pptx';
+    category = 'презентация';
   } else if (type === 'Documents') {
     fileType = 'docx';
+    category = 'документ';
   } else if (type === 'Videos') {
     fileType = 'mp4';
+    category = 'видео';
   } else if (type === 'Images') {
     fileType = 'png';
+    category = 'изображение';
   }
   const docs = [
     {
@@ -51,13 +57,14 @@ const Presentation = ({ title, type, link }) => {
         <div className="presentation__content-thumbnail rounded-2xl overflow-hidden aspect-[17/10] bg-gray-100 dark:bg-slate-900 dark:border-slate-800">
           <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} config={docs_conf} className="rounded-2xl aspect-[17/10]" />
         </div>
-        <div className="presentation__content-title flex item-center justify-between bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
-          <h2 className="dark:text-white text-left text-lg md:text-3xl text font-bold">
+        <div className="presentation__content-title flex items-center justify-between bg-gray-100 border dark:border-slate-800 dark:bg-slate-900 rounded-2xl p-3 mt-5">
+          <h2 className="dark:text-white text-left text-lg md:text-3xl text font-black">
             {title}
           </h2>
-          <div className="presentation__content-title-actions flex items-center">
-            <div></div>
-            <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full"><FontAwesome.FaFileDownload /></a>
+          <div className="presentation__content-title-actions flex items-center space-x-3">
+            <div className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer"><FontAwesome.FaThumbsUp /><p>{likes || '0'}</p></div>
+            <div className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer"><FontAwesome.FaThumbsDown /><p>{dislikes || '0'}</p></div>
+            <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-3 rounded-full"><FontAwesome.FaFileDownload /></a>
           </div>
         </div>
       </div>
