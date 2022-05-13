@@ -31,12 +31,10 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
           Payment: "",
           bio: "",
           class: 0,
-          isPro: false,
           expirationDate: Timestamp.now(),
-          mfaEnabled: false,
-          mfaSecret: "",
           profileUrl: "",
           school: "",
+          regFinish: false,
         }
         setDoc(doc(firestore, 'StripeCustomers', response.user.uid), user_info);
         navigate('/');
@@ -158,7 +156,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                 />
                 <div className="input-group-btn">
                   <button className="btn btn-outline-primary flex items-center dark:text-white bg-gray-100 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
-                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </button>
                 </div>
               </div>
@@ -176,7 +174,7 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
                 />
                 <div className="input-group-btn">
                   <button className="btn btn-outline-primary flex items-center dark:text-white bg-gray-100 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
-                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </button>
                 </div>
               </div>

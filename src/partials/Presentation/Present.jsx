@@ -1,38 +1,37 @@
-import useFetch from 'react-fetch-hook';
 import { Link, useParams } from "react-router-dom";
 
 import Presentation from './Presentation';
 import Author from './Author';
 import Suggestions from './Suggestions';
 import Comments from './Comments';
-
+import { useEffect, useState } from 'react';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { app } from '../../utils/Firebase/firebase';
 // [TODO] Dynamically parce
 
 const Present = () => {
-    const { uuid } = useParams(); // ID to Presentation -> TBU for dynamic parsing
-    const { data: presentation, loading, error } = useFetch("data/presentation.json");
-
-    if (loading) return <div className="presentation__author bg-gray-100 dark:bg-slate-900 rounded-2xl p-5 dark:text-white divide-y dark:divide-slate-800 space-y-4 border dark:border-slate-800"><div>Loading...</div></div>
-
-    if (error) {
-        return (
-            <div className="flex items-center justify-center">
-                <div className="flex flex-col bg-gray-100 dark:bg-slate-900 rounded-2xl p-5 dark:text-white divide-y border dark:border-slate-800 space-y-5">
-                    <p>грешка при зареждането</p>
-                    <Link to="/" className="bg-gray-200 dark:bg-slate-800 rounded-2xl p-5 dark:text-white divide-y  border dark:border-slate-700">Назад</Link>
-                </div>
-            </div>
-        )
-    }
+    const { type, uuid } = useParams(); // ID to Presentation -> TBU for dynamic parsing
+    // const { data: presentation, loading, error } = useFetch("data/presentation.json");
+    const [material, setMaterial] = useState({});
+    const [author, setAuthor] = useState({});
+    useEffect(async () => {
+        console.log(uuid)
+        const mat = await getDoc(doc(getFirestore(app), 'Presentations', uuid));
+        console.log(mat.data().title, mat.data().thumbnail, mat.data().file)
+        setMaterial(mat.data());
+        const authorDoc = await getDoc(doc(getFirestore(app), 'StripeCustomers', mat.data().Author.id));
+        console.log(authorDoc.data())
+        setAuthor(authorDoc.data());
+    }, []);
     return (
         <div className="flex md:flex-row flex-col">
             <div className='w-full h-full'>
-                <Presentation title={presentation?.title} thumbnail={presentation?.thumbnail} link={presentation?.link} />
+                <Presentation title={material?.title} thumbnail={material?.thumbnail} link={material?.file} />
                 <Comments />
             </div>
             <div className='flex-initial 2xl:w-1/5 lg:w-1/3 md:w-2/5 m-3 md:m-10 space-y-5'>
-                <Author presentation={presentation} />
-                <Suggestions />
+                <Author presentation={material} author={author} type={type} />
+                {/* <Suggestions /> */}
             </div>
         </div>
     )

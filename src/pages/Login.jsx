@@ -31,7 +31,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
                 sessionStorage.setItem('User Name', response.data().FirstName + ' ' + response.data().LastName);
                 sessionStorage.setItem('User Email', email);
               });
-              
+
             setIsLoggedIn(true);
             setShowNav(true);
             navigate('/');
@@ -105,7 +105,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
                 />
                 <div className="input-group-btn">
                   <button className="btn btn-outline-primary flex items-center dark:text-white bg-gray-100 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full" onClick={togglePassword} type="button">
-                  { showPassword ? <FaEye /> : <FaEyeSlash /> }
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </button>
                 </div>
               </div>
@@ -117,7 +117,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
             <div className='flex justify-center items-center mt-6'>
               <button
                 className={`dark:bg-slate-800 py-2 px-4 text-sm text-black dark:text-white rounded border dark:border-slate-700 focus:outline-none focus:border-green-dark`}
-                onClick={handleAction}
+                onClick={resetPassword}
               >
                 вход
               </button>
