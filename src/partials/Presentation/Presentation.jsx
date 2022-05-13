@@ -22,19 +22,8 @@ const Presentation = ({ title, type, link, likes, dislikes }) => {
   let fileType, category;
 
   // to be replaced with dictionary
-  if (type === 'Presentations') {
-    fileType = 'pptx';
-    category = 'презентация';
-  } else if (type === 'Documents') {
-    fileType = 'docx';
-    category = 'документ';
-  } else if (type === 'Videos') {
-    fileType = 'mp4';
-    category = 'видео';
-  } else if (type === 'Images') {
-    fileType = 'png';
-    category = 'изображение';
-  }
+  // console.log(String(link).split('.').pop())
+  type = String(link).split('.').pop();
   const docs = [
     {
       uri: link,
