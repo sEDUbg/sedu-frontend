@@ -1,27 +1,40 @@
-import './App.css';
 import { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import AOS from 'aos';
+
+import './css/App.css';
 import "aos/dist/aos.css";
 
-import NavigationBar from './components/NavigationBar';
-import LandingPage from './components/Home/LandingPage';
-import Home from './components/Home/Home';
-import Materials from './components/Materials/Materials';
-import Trend from './components/Trend/Trend';
-import User from './components/User/User';
-import Login from './components/Login/Login';
-import Logout from './components/Login/Logout';
-import Register from './components/Register/Register';
-import Upload from './components/Upload/Upload';
-import Present from './components/Presentation/Present';
+import NavigationBar from './partials/NavigationBar';
 
-import { Error404 } from './components/Errors/Errors';
+import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
+
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import Register from './pages/Register';
+
+import Materials from './pages/Materials';
+import Present from './partials/Presentation/Present';
+import Trend from './pages/Trend';
+import UserSettings from './pages/UserSettings';
+
+import Upload from './pages/Upload';
+
+import TOS from './pages/Legal/TOS';
+import Privacy from './pages/Legal/Privacy';
+import Search from './pages/Search';
+
+import { Error404 } from './utils/Errors';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { app } from './utils/Firebase/firebase';
 
 const App = () => {
+  const [user, loading, error] = useAuthState(getAuth(app));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showNav, setShowNav] = useState(true);
-  const [user, setUser] = useState();
+  const [User, setUser] = useState();
   let navigate = useNavigate();
 
   const location = useLocation();
@@ -43,37 +56,43 @@ const App = () => {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
-    let authToken = sessionStorage.getItem('Auth Token')
-
-    if (authToken) {
+    console.log(user);
+    if (user !== null) {
       setIsLoggedIn(true)
-      let usr = sessionStorage.getItem('User ID');
-      console.log(usr);
-      setUser(usr)
-      console.log("hmm", user)
+      setUser(user.uid)
     } else {
       setIsLoggedIn(false)
       setUser(null)
     }
 
 
-  }, [])
+  }, [user])
+
+  // [TODO] Implement Protected Routes -> https://www.robinwieruch.de/react-router-private-routes/
 
   return (
     <div className="min-h-screen bg-white dark:bg-black dark:text-white">
       {showNav ? <NavigationBar isLoggedIn={isLoggedIn} /> : null}
       <main className='min-h-full'>
         <Routes className='min-h-full'>
-          <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage />} />
-          <Route path="/presentations" element={<Present />} />
-          <Route path="/materials" element={<Materials />} />
+          <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage setShowNav={setShowNav} />} />
+          <Route path="/presentations" element={<Materials groupBy="Presentations" />} />
+          <Route path="/plans" element={<Materials groupBy="Documents" />} />
+          <Route path="/materials" element={<Materials groupBy="Pictures" />} />
           <Route path="/upload" element={<Upload />} />
-          <Route path="/trend" element={<Trend />} />
+          <Route path="/trending" element={<Trend />} />
+
+          <Route path="/materials/type=:type/uuid=:uuid" element={<Present />} />
 
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-          <Route path="/user/id=:id" element={<User />} />
+          <Route path="/user/id=:id" element={<UserSettings />} />
+
+          <Route path="/tos" element={<TOS />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/search" element={<Search />} />
+
           <Route path="*" element={<Error404 />} />
         </Routes>
       </main>
