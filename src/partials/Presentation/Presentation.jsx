@@ -19,11 +19,11 @@ import { app } from '../../utils/Firebase/firebase';
 
 const Presentation = ({ title, type, link, likes, dislikes }) => {
   useEffect(() => { const user = isPremium(); console.log(getAuth(app)) })
-  let fileType, category;
+  let fileType = String(link).split('.').pop();
 
   // to be replaced with dictionary
   // console.log(String(link).split('.').pop())
-  type = String(link).split('.').pop();
+
   const docs = [
     {
       uri: link,
