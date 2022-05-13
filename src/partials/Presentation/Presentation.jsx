@@ -57,7 +57,7 @@ const Presentation = ({ title, type, link }) => {
           </h2>
           <div className="presentation__content-title-actions flex items-center">
             <div></div>
-            <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center text-white bg-gray-200 border dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full"><FontAwesome.FaFileDownload /></a>
+            <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full"><FontAwesome.FaFileDownload /></a>
           </div>
         </div>
       </div>
