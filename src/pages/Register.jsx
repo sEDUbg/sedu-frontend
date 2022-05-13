@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
@@ -8,6 +8,7 @@ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from '
 import { getFirestore, setDoc, doc, Timestamp } from 'firebase/firestore';
 
 const Register = ({ setIsLoggedIn, setShowNav }) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');

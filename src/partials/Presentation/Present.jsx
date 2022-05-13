@@ -16,7 +16,7 @@ const Present = () => {
     const [author, setAuthor] = useState({});
     useEffect(async () => {
         console.log(uuid)
-        const mat = await getDoc(doc(getFirestore(app), 'Presentations', uuid));
+        const mat = await getDoc(doc(getFirestore(app), type, uuid));
         console.log(mat.data().title, mat.data().thumbnail, mat.data().file)
         setMaterial(mat.data());
         const authorDoc = await getDoc(doc(getFirestore(app), 'StripeCustomers', mat.data().Author.id));
