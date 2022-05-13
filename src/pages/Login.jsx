@@ -117,7 +117,7 @@ const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
             <div className='flex justify-center items-center mt-6'>
               <button
                 className={`dark:bg-slate-800 py-2 px-4 text-sm text-black dark:text-white rounded border dark:border-slate-700 focus:outline-none focus:border-green-dark`}
-                onClick={resetPassword}
+                onClick={handleAction}
               >
                 вход
               </button>
