@@ -19,6 +19,8 @@ import Present from './partials/Presentation/Present';
 import Trend from './pages/Trend';
 import UserSettings from './pages/UserSettings';
 
+import Referral from './pages/Referral';
+
 import Upload from './pages/Upload';
 
 import TOS from './pages/Legal/TOS';
@@ -29,10 +31,12 @@ import { Error404 } from './utils/Errors';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { app } from './utils/Firebase/firebase';
+import checkPremium from './utils/stripe/checkPremium';
 
 const App = () => {
   const [user, loading, error] = useAuthState(getAuth(app));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
   const [showNav, setShowNav] = useState(true);
   const [User, setUser] = useState();
   let navigate = useNavigate();
@@ -60,6 +64,7 @@ const App = () => {
     if (user !== null) {
       setIsLoggedIn(true)
       setUser(user.uid)
+      setIsPremium(checkPremium(user.uid))
     } else {
       setIsLoggedIn(false)
       setUser(null)
@@ -84,6 +89,7 @@ const App = () => {
 
           <Route path="/materials/type=:type/uuid=:uuid" element={<Present />} />
 
+          <Route path="/referral/uuid=:uuid" element={<Referral setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
