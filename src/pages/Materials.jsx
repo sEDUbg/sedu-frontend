@@ -68,7 +68,6 @@ const Materials = ({ groupBy }) => {
         getGrid(groupBy)
             .then(grid => {
                 setGrid(grid);
-                console.log(grid)
             });
 
     }, [groupBy]);
