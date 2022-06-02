@@ -10,7 +10,7 @@ const UploadFile = () => {
     const fileInputRef = useRef(null);
     const onFileInputChange = (event) => {
         const { files } = event.target;
-        console.log(files[0]);
+        //console.log(files[0]);
         const file = files[0];
         const storage = getStorage(app);
         const storageRef = ref(storage, `/Presentations/${file.name}`);

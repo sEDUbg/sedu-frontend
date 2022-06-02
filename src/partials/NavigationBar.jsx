@@ -25,8 +25,8 @@ const NavigationBar = (isLoggedInObject) => {
     ];
 
     let userLink = '/user/id=' + userID + '';
-    console.log(typeof userLink, 'haha', userID)
-    console.log(isLoggedIn)
+    //console.log(typeof userLink, 'haha', userID)
+    //console.log(isLoggedIn)
 
     const userNavigation = (isLoggedIn) ? [
         { name: 'моя профил', href: userLink },

@@ -33,7 +33,7 @@ const UserSettings = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log(docSnap.data());
+      //console.log(docSnap.data());
       setUserData(docSnap.data());
     } else {
       console.log('No such document!');

@@ -57,8 +57,6 @@ const Upload = () => {
                     console.log(err);
                 });
             const auth = getAuth(app);
-            console.log("/StripeCustomers/" + auth.currentUser.uid);
-            console.log(file);
             const storage = getStorage(app);
             //const storageRef = ref(storage, `/Presentations/${file.name}`);
             var path;
@@ -87,7 +85,6 @@ const Upload = () => {
             }, () => {
                 const url = 'https://storage.googleapis.com/sedubg-2022.appspot.com/' + path + '/' + file.name;
 
-                console.log(url);
                 const presentationsRef = collection(db, path);
                 const userRef = doc(db, 'StripeCustomers', auth.currentUser.uid);
                 const presentationData = { Author: userRef, corridor: corridorRef, file: url, info: { description: description, specs: { class: grade, subject: subject.current.value }, stats: { comments: 0, downloads: 0, forks: 0, likes: 0, views: 0 } }, origin: true, title: title };
@@ -130,7 +127,7 @@ const Upload = () => {
     }
 
     const onDropFile = (event) => {
-        console.log(event[0]);
+        //console.log(event[0]);
         setFile(event[0]);
         setFileName(event[0].name);
     }

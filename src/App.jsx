@@ -60,7 +60,6 @@ const App = () => {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
-    console.log(user);
     if (user !== null) {
       setIsLoggedIn(true)
       setUser(user.uid)
