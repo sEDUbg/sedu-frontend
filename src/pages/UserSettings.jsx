@@ -48,7 +48,7 @@ const UserSettings = () => {
   return (
     <div className='w-screen flex-col items-center justify-center bg-gray-bg1 dark:text-white p-5'>
       <img src={userData?.profileUrl || '/img/default.png'} className='m-auto rounded-full border w-44 dark:border-slate-800 -mb-24'/>
-      <div className='w-full max-w-md m-auto bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default pt-28 py-10 px-16 divide-y divide-slate-600 space-y-4'>
+      <div className='w-full max-w-md m-auto bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default pt-28 py-10 sm:px-16 px-8 divide-y divide-slate-600 space-y-4'>
         <div className=''>
           <form onSubmit={handleAction}>
             <div>

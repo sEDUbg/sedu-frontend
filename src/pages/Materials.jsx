@@ -16,6 +16,27 @@ const getAuthor = async (uid) => {
 
 const getGrid = async (type) => {
     const grid = await getDocs(collection(getFirestore(app), type));
+    const promises = grid?.docs.map(item => getAuthor(item.data().Author.id));
+    const authors = await Promise.all(promises);
+    const gridData = authors.map(author => {
+        //console.log(item.data());
+      return {
+          //title: item.data().title,
+          //link: "/materials/type=" + type + "/uuid=" + item.id,
+          thumbnail: "#",
+          type: type,
+          authors: [{
+            name: author.FirstName + " " + author.LastName,
+            imageUrl: author.profileUrl,
+            profileUrl: "/user/id=" + author.id
+          }]
+      }
+    });
+    return gridData;
+}
+
+const OLDgetGrid = async (type) => {
+    const grid = await getDocs(collection(getFirestore(app), type));
     var gridData = [];
     grid.docs.map(item => {
         getAuthor(item.data().Author.id).then(author => {
@@ -48,7 +69,7 @@ const info = {
 const Material = ({ info }) => {
     // console.log(info)
     return (
-        <Link to={info.link} className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border">
+        <Link to={info.link || '#'} className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border">
             <img src={info.thumbnail} className="thumbnail aspect-video rounded-2xl" />
             <div className="flex items-center p-3 space-x-4">
                 <Link to=''><img src={info.authors[0].imageUrl} className="w-12 block aspect-square rounded-full" /></Link>
@@ -63,14 +84,28 @@ const Material = ({ info }) => {
 
 const Materials = ({ groupBy }) => {
     const [grid, setGrid] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getGrid(groupBy)
             .then(grid => {
                 setGrid(grid);
-            });
+            })
+            .then(() => setLoading(false));
+            //.then(setTimeout(function() { setLoading(false); }, 5000));
 
     }, [groupBy]);
+
+    if(loading) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen">
+                <div className="w-64">
+                    <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" className="w-full h-full" />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full flex flex-col justify-content items-center m-auto">
             <div className="materials w-11/12 lg:p-5 pt-5 grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-4 gap-y-6">
