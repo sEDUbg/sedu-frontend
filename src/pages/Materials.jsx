@@ -58,6 +58,8 @@ const OLDgetGrid = async (type) => {
             link: "/materials/type=" + type + "/uuid=" + item.id,
             thumbnail: "#",
             type: type,
+            subject: item.data().info.specs.subject,
+            class: item.data().info.specs.class,
             authors: [{
                 name: author.FirstName + " " + author.LastName,
                 imageUrl: author.profileUrl,
@@ -70,6 +72,11 @@ const OLDgetGrid = async (type) => {
 }
 
 const Material = ({ info }) => {
+    const type = {
+        "Presentations": "презентация по",
+        "Documents": "план по",
+        "Pictures": "материал за",
+    };
     // console.log(info)
     return (
         <Link to={info.link || '#'} className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border">
@@ -78,6 +85,7 @@ const Material = ({ info }) => {
                 <div to=''><img src={info.authors[0].imageUrl || '/img/default.png'} className="w-12 block aspect-square rounded-full" /></div>
                 <div className="flex flex-col">
                     <h3 className="text-xl font-bold">{info.title}</h3>
+                    <p className="text-sm text-gray-500">{type[info?.type]} {info?.subject || "(null)"} {info?.class}</p>
                     {info.authors.map((author, index) => (<p key={index} className="text-sm text-gray-500">{author.name}</p>))}
                 </div>
             </div>
