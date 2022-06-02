@@ -46,7 +46,7 @@ const info = {
 }
 
 const Material = ({ info }) => {
-    console.log(info)
+    // console.log(info)
     return (
         <Link to={info.link} className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border">
             <img src={info.thumbnail} className="thumbnail aspect-video rounded-2xl" />
@@ -63,16 +63,18 @@ const Material = ({ info }) => {
 
 const Materials = ({ groupBy }) => {
     const [grid, setGrid] = useState([]);
+
     useEffect(() => {
         getGrid(groupBy)
             .then(grid => {
                 setGrid(grid);
-            })
-    }, []);
+            });
+
+    }, [groupBy]);
     return (
         <div className="w-full flex flex-col justify-content items-center m-auto">
             <div className="materials w-11/12 lg:p-5 pt-5 grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-4 gap-y-6">
-                {grid.map((i) => (<Material info={i} />))}
+                {grid.length > 0 ? grid.map((info) => (<Material info={info} />)) : <div className="w-full flex flex-col justify-content items-center m-auto"> <h1 className="text-xl font-bold">Няма намерени материали</h1> </div>}
             </div>
         </div>
     )

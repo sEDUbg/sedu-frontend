@@ -13,12 +13,9 @@
 import { useEffect } from 'react';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import * as FontAwesome from 'react-icons/fa'
-import isPremium from '../../utils/stripe/isPremium';
-import { getAuth } from 'firebase/auth';
-import { app } from '../../utils/Firebase/firebase';
 
 const Presentation = ({ title, type, link, likes, dislikes }) => {
-  useEffect(() => { const user = isPremium(); console.log(getAuth(app)) })
+  // useEffect(() => { const user = createPromoCode(); console.log(user) })
   let fileType = String(link).split('.').pop();
 
   // to be replaced with dictionary
