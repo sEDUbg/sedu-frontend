@@ -61,7 +61,6 @@ const App = () => {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
-    console.log(user);
     if (user !== null) {
       setIsLoggedIn(true)
       setIsPremium(checkPremium(currentUser.uid))

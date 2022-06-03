@@ -1,7 +1,9 @@
+import AdSense from 'react-adsense';
+
 const Home = () => {
     return (
         <>
-        
+            HOOOOOOMMMMMMMMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
         </>
     )
 }

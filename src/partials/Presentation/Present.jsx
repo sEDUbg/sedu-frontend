@@ -15,12 +15,12 @@ const Present = () => {
     const [material, setMaterial] = useState({});
     const [author, setAuthor] = useState({});
     useEffect(async () => {
-        console.log(uuid)
+        //console.log(uuid)
         const mat = await getDoc(doc(getFirestore(app), type, uuid));
-        console.log(mat.data().title, mat.data().thumbnail, mat.data().file)
+        //console.log(mat.data().title, mat.data().thumbnail, mat.data().file)
         setMaterial(mat.data());
         const authorDoc = await getDoc(doc(getFirestore(app), 'StripeCustomers', mat.data().Author.id));
-        console.log(authorDoc.data())
+        //console.log(authorDoc.data())
         setAuthor(authorDoc.data());
     }, []);
     return (

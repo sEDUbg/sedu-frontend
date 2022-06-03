@@ -18,7 +18,6 @@ const Login = ({ setIsLoggedIn, setShowNav }) => {
   const handleAction = (e) => {
     e.preventDefault();
     const authentication = getAuth(app);
-    console.log(authentication);
     setPersistence(authentication, browserLocalPersistence)
       .then(() => {
         signInWithEmailAndPassword(authentication, email, password)

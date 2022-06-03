@@ -25,8 +25,8 @@ const NavigationBar = (isLoggedInObject) => {
     ];
 
     let userLink = '/user/id=' + userID + '';
-    console.log(typeof userLink, 'haha', userID)
-    console.log(isLoggedIn)
+    //console.log(typeof userLink, 'haha', userID)
+    //console.log(isLoggedIn)
 
     const userNavigation = (isLoggedIn) ? [
         { name: 'моя профил', href: userLink },
@@ -55,7 +55,7 @@ const NavigationBar = (isLoggedInObject) => {
                     <div>
                         <Menu.Button className="max-w-xs dark:bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                             <span className="sr-only">Open user menu</span>
-                            <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                            <img className="h-8 w-8 rounded-full border dark:border-slate-700" src={user.imageUrl} alt="" />
                         </Menu.Button>
                     </div>
                     <Transition
