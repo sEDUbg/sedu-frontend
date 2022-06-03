@@ -6,7 +6,7 @@ const checkPremium = async (uuid) => {
   const snapshot = await getDocs(
     collection(firestore, "StripeCustomers/" + uuid + "/subscriptions")
   );
-  return snapshot.docs[0].data().status ? true : false;
+  return snapshot.docs[0]?.data().status ? true : false;
 };
 
 export default checkPremium;

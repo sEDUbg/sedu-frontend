@@ -9,7 +9,7 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 // [TODO]: Implement https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/gister
 
-const Login = ({ setIsLoggedIn, setShowNav, setUser }) => {
+const Login = ({ setIsLoggedIn, setShowNav }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false);
