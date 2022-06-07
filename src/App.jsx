@@ -32,6 +32,8 @@ import { getAuth } from 'firebase/auth';
 import { app } from './utils/Firebase/firebase';
 import checkPremium from './utils/stripe/checkPremium';
 
+import { getFirestore, getDoc, doc, } from 'firebase/firestore';
+
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,10 +59,26 @@ const App = () => {
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]); // triggered on route change
 
+
+  useEffect(() => {
+    getAuth(app).onAuthStateChanged((user) => {
+      //console.log(user);
+      setCurrentUser(user);
+    });
+  }, []);
+
   useEffect(() => {
 
     if (currentUser != null) {
-      console.log(currentUser)
+      //console.log(currentUser)
+      sessionStorage.setItem('User ID', currentUser.uid);
+      const user_doc = doc(getFirestore(app), 'StripeCustomers', currentUser.uid);
+      getDoc(user_doc)
+        .then((response) => {
+          sessionStorage.setItem('ImageUrl', response.data().profileUrl);
+          sessionStorage.setItem('User Name', response.data().FirstName + ' ' + response.data().LastName);
+          sessionStorage.setItem('User Email', response.data().email);
+        });
       setIsLoggedIn(true)
       setIsPremium(checkPremium(currentUser?.uid))
     } else {
@@ -69,12 +87,6 @@ const App = () => {
 
 
   }, [currentUser])
-  useEffect(() => {
-    getAuth(app).onAuthStateChanged((user) => {
-      console.log(user);
-      setCurrentUser(user);
-    });
-  }, []);
 
   // [TODO] Implement Protected Routes -> https://www.robinwieruch.de/react-router-private-routes/
 

@@ -46,7 +46,7 @@ const getGrid = async (type) => {
 
 const OLDgetGrid = async (type) => {
     const grid = await getDocs(collection(getFirestore(app), type));
-    const gridQuery = query(collection(getFirestore(app), type), limit());
+    // const gridQuery = query(collection(getFirestore(app), type), limit());
 
     const promisesA = grid?.docs.map(item => getAuthor(item.data().Author.id));
     const authors = await Promise.all(promisesA);
