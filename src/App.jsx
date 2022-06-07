@@ -29,17 +29,14 @@ import Search from './pages/Search';
 
 import { Error404 } from './utils/Errors';
 import { getAuth } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { app } from './utils/Firebase/firebase';
-import { AuthProvider } from './Auth';
 import checkPremium from './utils/stripe/checkPremium';
 
 const App = () => {
-  const { currentUser } = useContext(AuthContext);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
   const [showNav, setShowNav] = useState(true);
-  const [User, setUser] = useState();
   let navigate = useNavigate();
 
   const location = useLocation();
@@ -61,48 +58,55 @@ const App = () => {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
-    if (user !== null) {
+
+    if (currentUser != null) {
+      console.log(currentUser)
       setIsLoggedIn(true)
-      setIsPremium(checkPremium(currentUser.uid))
+      setIsPremium(checkPremium(currentUser?.uid))
     } else {
       setIsLoggedIn(false)
     }
 
 
-  }, [user])
+  }, [currentUser])
+  useEffect(() => {
+    getAuth(app).onAuthStateChanged((user) => {
+      console.log(user);
+      setCurrentUser(user);
+    });
+  }, []);
 
   // [TODO] Implement Protected Routes -> https://www.robinwieruch.de/react-router-private-routes/
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-white dark:bg-black dark:text-white">
-        {showNav ? <NavigationBar isLoggedIn={isLoggedIn} /> : null}
-        <main className='min-h-full'>
-          <Routes className='min-h-full'>
-            <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage setShowNav={setShowNav} />} />
-            <Route path="/presentations" element={<Materials groupBy="Presentations" />} />
-            <Route path="/plans" element={<Materials groupBy="Documents" />} />
-            <Route path="/materials" element={<Materials groupBy="Pictures" />} />
-            <Route path="/upload" element={<Upload />} />
-            <Route path="/trending" element={<Trend />} />
 
-            <Route path="/materials/type=:type/uuid=:uuid" element={<Present />} />
+    <div className="min-h-screen bg-white dark:bg-black dark:text-white">
+      {showNav ? <NavigationBar isLoggedIn={isLoggedIn} /> : null}
+      <main className='min-h-full'>
+        <Routes className='min-h-full'>
+          <Route path="/" element={(isLoggedIn) ? <Home /> : <LandingPage setShowNav={setShowNav} />} />
+          <Route path="/presentations" element={<Materials groupBy="Presentations" />} />
+          <Route path="/plans" element={<Materials groupBy="Documents" />} />
+          <Route path="/materials" element={<Materials groupBy="Pictures" />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/trending" element={<Trend />} />
 
-            <Route path="/referral/uuid=:uuid" element={<Referral setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-            <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-            <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-            <Route path="/user/id=:id" element={<UserSettings />} />
+          <Route path="/materials/type=:type/uuid=:uuid" element={<Present />} />
 
-            <Route path="/tos" element={<TOS />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/search" element={<Search />} />
+          <Route path="/referral/uuid=:uuid" element={<Referral setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
+          <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
+          <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
+          <Route path="/user/id=:id" element={<UserSettings />} />
 
-            <Route path="*" element={<Error404 />} />
-          </Routes>
-        </main>
-      </div>
-    </AuthProvider>
+          <Route path="/tos" element={<TOS />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/search" element={<Search />} />
+
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
