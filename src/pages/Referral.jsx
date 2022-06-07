@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { app } from '../utils/Firebase/firebase';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { getFirestore, setDoc, doc, Timestamp } from 'firebase/firestore';
+import { getFirestore, setDoc, doc, Timestamp, updateDoc, arrayUnion } from 'firebase/firestore';
 import axios from 'axios';
 
 const Referral = ({ setIsLoggedIn, setShowNav }) => {
@@ -31,13 +31,12 @@ const Referral = ({ setIsLoggedIn, setShowNav }) => {
                     FirstName: firstName,
                     LastName: lastName,
                     Username: username,
-                    Payment: "",
                     bio: "",
                     class: 0,
-                    expirationDate: Timestamp.now(),
                     profileUrl: "",
                     school: "",
                     regFinish: false,
+                    refUser: uuid,
                 }
                 setDoc(doc(firestore, 'StripeCustomers', response.user.uid), user_info);
                 navigate('/');
@@ -47,9 +46,6 @@ const Referral = ({ setIsLoggedIn, setShowNav }) => {
                         sessionStorage.setItem('User ID', authentication.currentUser.uid);
                         setIsLoggedIn(true);
                         setShowNav(true);
-                        axios.post('http://localhost:3001/get/promoCode', {
-                            uuid: uuid,
-                        })
                         navigate('/');
                     })
                     .catch((error) => {

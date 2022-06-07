@@ -1,4 +1,11 @@
-import { useRef } from "react";
+import { Hits, InstantSearch, SearchBox, connectHighlight } from "react-instantsearch-dom";
+import algoliasearch from 'algoliasearch/lite';
+import { getDoc, doc } from 'firebase/firestore';
+import { useRef } from 'react';
+import { getFirestore } from 'firebase/firestore';
+import { app } from '../utils/Firebase/firebase';
+
+const searchClient = algoliasearch('ZG1CIQ3EAR', 'e173b451d61a8152f059f1cbcbdb6ed2');
 
 const Search = () => {
     const clickPoint = useRef();
@@ -12,19 +19,58 @@ const Search = () => {
     return (
         <div className="items-center px-4 flex justify-center" >
             <div className="relative mr-3">
-                <div className="absolute top-3 left-3 items-center" ref={clickPoint}>
-                    <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                </div>
-                <input
-                    type="text"
-                    className="block p-2 pl-10 w-70 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:pl-3"
-                    placeholder="Search Here..."
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                />
+                <InstantSearch searchClient={searchClient} indexName="materials">
+                    <SearchBox />
+                    <Hits hitComponent={Material} />
+                </InstantSearch>
             </div>
         </div>
     );
 }
+
+const CustomHighlight = connectHighlight(({ hit }) => {
+    console.log(hit)
+    return (
+        <div>
+            <h3>{hit.author.name}</h3>
+            <img src={hit.author.imageUrl} alt={hit.author.name} />
+
+        </div>
+    );
+});
+
+const Material = ({ hit }) => {
+    const author = getDoc(doc(getFirestore(app), 'StripeCustomers', hit.Author.substring(hit.Author.indexOf('/') + 1))).then(author => {
+        return author.data();
+    }
+    ).catch(error => {
+        console.log(error);
+    }
+    );
+
+
+    const data = {
+        title: hit.title,
+        link: "/materials/type=" + hit.Author.substring(0, hit.Author.indexOf('/')) + "/uuid=" + hit.objectID,
+        thumbnail: "#",
+        type: hit.Author.substring(0, hit.Author.indexOf('/')),
+        subject: hit.info.specs.subject,
+        class: hit.info.specs.class,
+        author: {
+            name: author.FirstName + " " + author.LastName,
+            imageUrl: author.profileUrl,
+            profileUrl: "/user/id=" + author.id
+        }
+    }
+    // return gridData;
+    return (
+        <p>
+            <CustomHighlight hit={data} />
+        </p>
+    );
+
+}
+
+
 
 export default Search;

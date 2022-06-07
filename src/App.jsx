@@ -29,16 +29,16 @@ import Search from './pages/Search';
 
 import { Error404 } from './utils/Errors';
 import { getAuth } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { app } from './utils/Firebase/firebase';
 import checkPremium from './utils/stripe/checkPremium';
 
+import { getFirestore, getDoc, doc, } from 'firebase/firestore';
+
 const App = () => {
-  const [user, loading, error] = useAuthState(getAuth(app));
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
   const [showNav, setShowNav] = useState(true);
-  const [User, setUser] = useState();
   let navigate = useNavigate();
 
   const location = useLocation();
@@ -59,22 +59,39 @@ const App = () => {
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]); // triggered on route change
 
+
   useEffect(() => {
-    if (user !== null) {
+    getAuth(app).onAuthStateChanged((user) => {
+      //console.log(user);
+      setCurrentUser(user);
+    });
+  }, []);
+
+  useEffect(() => {
+
+    if (currentUser != null) {
+      //console.log(currentUser)
+      sessionStorage.setItem('User ID', currentUser.uid);
+      const user_doc = doc(getFirestore(app), 'StripeCustomers', currentUser.uid);
+      getDoc(user_doc)
+        .then((response) => {
+          sessionStorage.setItem('ImageUrl', response.data().profileUrl);
+          sessionStorage.setItem('User Name', response.data().FirstName + ' ' + response.data().LastName);
+          sessionStorage.setItem('User Email', response.data().email);
+        });
       setIsLoggedIn(true)
-      setUser(user.uid)
-      setIsPremium(checkPremium(user.uid))
+      setIsPremium(checkPremium(currentUser?.uid))
     } else {
       setIsLoggedIn(false)
-      setUser(null)
     }
 
 
-  }, [user])
+  }, [currentUser])
 
   // [TODO] Implement Protected Routes -> https://www.robinwieruch.de/react-router-private-routes/
 
   return (
+
     <div className="min-h-screen bg-white dark:bg-black dark:text-white">
       {showNav ? <NavigationBar isLoggedIn={isLoggedIn} /> : null}
       <main className='min-h-full'>
@@ -89,8 +106,8 @@ const App = () => {
           <Route path="/materials/type=:type/uuid=:uuid" element={<Present />} />
 
           <Route path="/referral/uuid=:uuid" element={<Referral setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
-          <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} setUser={setUser} />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
+          <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
           <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} setShowNav={setShowNav} />} />
           <Route path="/user/id=:id" element={<UserSettings />} />
 

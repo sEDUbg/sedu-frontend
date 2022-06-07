@@ -9,6 +9,13 @@ const UserSettings = () => {
   const [userData, setUserData] = useState(null);
   const [userDataChange, setUserDataChange] = useState(false);
   const [button, setButton] = useState("промени");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [school, setSchool] = useState("");
+  const [grade, setGrade] = useState("");
+  const [bio, setBio] = useState("");
 
   const { id } = useParams();
 
@@ -19,12 +26,12 @@ const UserSettings = () => {
   }
 
   const getInput = (e) => {
-    /*         if (e.target.id === 'email') {
-              setEmail(e.target.value)
-            }
-            if (e.target.id === 'password') {
-              setPassword(e.target.value)
-            } */
+    if (e.target.id === 'email') {
+      setEmail(e.target.value)
+    }
+    if (e.target.id === 'password') {
+      setPassword(e.target.value)
+    }
   }
 
   const getData = async () => {
@@ -47,7 +54,7 @@ const UserSettings = () => {
 
   return (
     <div className='w-screen flex-col items-center justify-center bg-gray-bg1 dark:text-white p-5'>
-      <img src={userData?.profileUrl || '/img/default.png'} className='m-auto rounded-full border w-44 dark:border-slate-800 -mb-24'/>
+      <img src={userData?.profileUrl || '/img/default.png'} className='m-auto rounded-full border w-44 dark:border-slate-800 -mb-24' />
       <div className='w-full max-w-md m-auto bg-white dark:bg-slate-900 rounded-lg border dark:border-slate-700 shadow-default pt-28 py-10 sm:px-16 px-8 divide-y divide-slate-600 space-y-4'>
         <div className=''>
           <form onSubmit={handleAction}>
@@ -81,7 +88,7 @@ const UserSettings = () => {
               <div className='grid grid-cols-2 gap-5'>
                 <div className=''>
                   <label htmlFor='school'>училище</label>
-                  <input 
+                  <input
                     type='text'
                     className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                     id='school'
@@ -132,8 +139,8 @@ const UserSettings = () => {
                   />
                 </div>
                 <label htmlFor='bio'>био</label>
-                <textarea 
-                  id='bio' 
+                <textarea
+                  id='bio'
                   className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out my-4 text-black`}
                   placeholder='био'
                   value={userData?.bio}
