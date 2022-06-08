@@ -4,6 +4,7 @@ import { getDoc, doc } from 'firebase/firestore';
 import { useRef } from 'react';
 import { getFirestore } from 'firebase/firestore';
 import { app } from '../utils/Firebase/firebase';
+import { Link } from 'react-router-dom'
 
 const searchClient = algoliasearch('ZG1CIQ3EAR', 'e173b451d61a8152f059f1cbcbdb6ed2');
 
@@ -31,11 +32,17 @@ const Search = () => {
 const CustomHighlight = connectHighlight(({ hit }) => {
     console.log(hit)
     return (
-        <div>
-            <h3>{hit.author.name}</h3>
-            <img src={hit.author.imageUrl} alt={hit.author.name} />
-
-        </div>
+        <Link to={hit.link || '#'} className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border">
+            <img src={hit.thumbnail === '#' ? '/seduthumb.png' : hit.thumbnail} className="thumbnail aspect-video rounded-2xl" />
+            <div className="flex items-center p-3 space-x-4">
+                {/* <div to=''><img src={hit.authors[0].imageUrl || '/img/default.png'} className="w-12 block aspect-square rounded-full" /></div> */}
+                <div className="flex flex-col">
+                    <h3 className="text-xl font-bold">{hit.title}</h3>
+                    <p className="text-sm text-gray-500">{hit?.type} {hit?.subject || "(null)"} {hit?.class}</p>
+                    {/* {info.authors.map((author, index) => (<p key={index} className="text-sm text-gray-500">{author.name}</p>))} */}
+                </div>
+            </div>
+        </Link>
     );
 });
 
@@ -48,12 +55,12 @@ const Material = ({ hit }) => {
     }
     );
 
-
+    console.log(hit.path.substring(0, hit.path.indexOf('/')))
     const data = {
         title: hit.title,
-        link: "/materials/type=" + hit.Author.substring(0, hit.Author.indexOf('/')) + "/uuid=" + hit.objectID,
+        link: "/materials/type=" + hit.path.substring(0, hit.path.indexOf('/')) + "/uuid=" + hit.objectID,
         thumbnail: "#",
-        type: hit.Author.substring(0, hit.Author.indexOf('/')),
+        type: hit.path.substring(0, hit.path.indexOf('/')),
         subject: hit.info.specs.subject,
         class: hit.info.specs.class,
         author: {
