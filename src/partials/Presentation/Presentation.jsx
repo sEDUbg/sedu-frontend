@@ -10,14 +10,74 @@
     thubnail: 'present.png',
 } */
 
-import { useEffect } from 'react';
+import { getDoc, doc, getFirestore, updateDoc, increment } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import * as FontAwesome from 'react-icons/fa'
+import { app } from '../../utils/Firebase/firebase';
 
-const Presentation = ({ title, type, link, likes, dislikes }) => {
+const Presentation = ({ title, type, uuid, link }) => {
   // useEffect(() => { const user = createPromoCode(); console.log(user) })
   let fileType = String(link).split('.').pop();
+  const docRef = doc(getFirestore(app), type, uuid);
+  const userId = sessionStorage.getItem('User ID').toString();
+  const [load, setLoad] = useState(false);
+  const [reaction, setReaction] = useState('');
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  useEffect(() => {
+    if (load) {
+      var reactNum = 0;
+      if (reaction == 'like') {
+        reactNum++;
+      } else if (reaction == 'dislike') {
+        reactNum--;
+      }
+      const arrayLoc = "info.stats.responseList." + userId;
+      var likeNum = 0;
+      var dislikeNum = 0;
 
+
+
+      var docValue = {};
+      docValue[arrayLoc.toString()] = reactNum;
+      console.log(docValue, reaction);
+      updateDoc(docRef, docValue).then(() => {
+        getDoc(docRef).then(doc => {
+          const arr = doc.data().info.stats.responseList;
+          for (var key in arr) {
+            if (arr[key] == 1) {
+              likeNum++;
+            } else if (arr[key] == -1) {
+              dislikeNum++;
+            }
+          }
+
+          const LikeLoc = "info.stats.likes";
+          const DislikeLoc = "info.stats.dislikes";
+          var docValues = {};
+          docValues[LikeLoc.toString()] = likeNum;
+          docValues[DislikeLoc.toString()] = dislikeNum;
+          setLikes(likeNum);
+          setDislikes(dislikeNum);
+          console.log(docValues);
+          updateDoc(docRef, docValues);
+        })
+      })
+    }
+  }, [reaction])
+  useEffect(() => {
+    getDoc(docRef).then(doc => {
+      const arr = doc.data().info.stats.responseList;
+      if (userId in arr) {
+        setReaction(arr[userId] == 1 ? 'like' : arr[userId] == -1 ? 'dislike' : '');
+      }
+
+      setLikes(doc.data().info.stats.likes);
+      setDislikes(doc.data().info.stats.dislikes);
+      setLoad(true);
+    })
+  }, [])
   // to be replaced with dictionary
   // console.log(String(link).split('.').pop())
 
@@ -37,6 +97,19 @@ const Presentation = ({ title, type, link, likes, dislikes }) => {
   if (link === undefined)
     return null;
 
+  const Reaction = (inReact) => {
+    // console.log(kids)
+    if (reaction != inReact) {
+      setReaction(inReact);
+    } else if (reaction != 'dislike' && reaction != 'like') {
+      setReaction(inReact);
+    } else {
+      setReaction('');
+    }
+  }
+
+
+
   return (
     <div className="presentation flex-initial w-full">
       <div className="presentation__content flex-1 rounded-2xl m-3 md:m-0 md:ml-10 md:my-10">
@@ -48,8 +121,8 @@ const Presentation = ({ title, type, link, likes, dislikes }) => {
             {title}
           </h2>
           <div className="presentation__content-title-actions flex items-center space-x-3">
-            <div className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer"><FontAwesome.FaThumbsUp /><p>{likes || '0'}</p></div>
-            <div className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer"><FontAwesome.FaThumbsDown /><p>{dislikes || '0'}</p></div>
+            <div onClick={() => Reaction("like")} id="like" className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer">{reaction == "like" ? <FontAwesome.FaThumbsUp /> : <FontAwesome.FaRegThumbsUp />}<p className='user-select: none'>{likes || '0'}</p></div>
+            <div onClick={() => Reaction("dislike")} id="dislike" className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer">{reaction == "dislike" ? <FontAwesome.FaThumbsDown /> : <FontAwesome.FaRegThumbsDown />}<p className='user-select: none'>{dislikes || '0'}</p></div>
             <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-3 rounded-full"><FontAwesome.FaFileDownload /></a>
           </div>
         </div>

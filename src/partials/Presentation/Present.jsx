@@ -26,7 +26,7 @@ const Present = () => {
     return (
         <div className="flex md:flex-row flex-col">
             <div className='w-full h-full'>
-                <Presentation title={material?.title} type={type} link={material?.file} />
+                <Presentation title={material?.title} type={type} link={material?.file} uuid={uuid} />
                 <Comments />
             </div>
             <div className='flex-initial 2xl:w-1/5 lg:w-1/3 md:w-2/5 m-3 md:m-10 space-y-5'>
