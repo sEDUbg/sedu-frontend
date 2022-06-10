@@ -26,6 +26,7 @@ const Presentation = ({ title, type, uuid, link }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   useEffect(() => {
+
     if (load) {
       var reactNum = 0;
       if (reaction == 'like') {
@@ -45,13 +46,16 @@ const Presentation = ({ title, type, uuid, link }) => {
       updateDoc(docRef, docValue).then(() => {
         getDoc(docRef).then(doc => {
           const arr = doc.data().info.stats.responseList;
-          for (var key in arr) {
-            if (arr[key] == 1) {
-              likeNum++;
-            } else if (arr[key] == -1) {
-              dislikeNum++;
+          if (arr) {
+            for (var key in arr) {
+              if (arr[key] == 1) {
+                likeNum++;
+              } else if (arr[key] == -1) {
+                dislikeNum++;
+              }
             }
           }
+
 
           const LikeLoc = "info.stats.likes";
           const DislikeLoc = "info.stats.dislikes";
@@ -69,10 +73,11 @@ const Presentation = ({ title, type, uuid, link }) => {
   useEffect(() => {
     getDoc(docRef).then(doc => {
       const arr = doc.data().info.stats?.responseList;
-      if (userId in arr) {
-        setReaction(arr[userId] == 1 ? 'like' : arr[userId] == -1 ? 'dislike' : '');
+      if (arr != undefined) {
+        if (userId in arr) {
+          setReaction(arr[userId] == 1 ? 'like' : arr[userId] == -1 ? 'dislike' : '');
+        }
       }
-
       setLikes(doc.data().info.stats?.likes);
       setDislikes(doc.data().info.stats?.dislikes);
       setLoad(true);
