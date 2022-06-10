@@ -5,7 +5,7 @@ import Author from './Author';
 import Suggestions from './Suggestions';
 import Comments from './Comments';
 import { useEffect, useState } from 'react';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, updateDoc, increment } from 'firebase/firestore';
 import { app } from '../../utils/Firebase/firebase';
 // [TODO] Dynamically parce
 
@@ -15,6 +15,8 @@ const Present = () => {
     const [material, setMaterial] = useState({});
     const [author, setAuthor] = useState({});
     useEffect(async () => {
+        const docRef = doc(getFirestore(app), type, uuid);
+        await updateDoc(docRef, { "info.stats.views": increment(1) });
         //console.log(uuid)
         const mat = await getDoc(doc(getFirestore(app), type, uuid));
         //console.log(mat.data().title, mat.data().thumbnail, mat.data().file)

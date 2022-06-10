@@ -1,15 +1,3 @@
-/* const presentation = {
-    author: {
-      name: 'Калоян Дойчинов',
-      imageUrl: 'https://avatars.cloudflare.steamstatic.com/b4a5d7f1473151316410c1307822efd74ec5a87b_full.jpg',
-      bio: 'Програмист в компании Седубг',
-      class: '10',
-      school: 'ТУЕС',
-    },
-    title: 'Съединените американски щати',
-    thubnail: 'present.png',
-} */
-
 import { getDoc, doc, getFirestore, updateDoc, increment } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
@@ -128,7 +116,7 @@ const Presentation = ({ title, type, uuid, link }) => {
           <div className="presentation__content-title-actions flex items-center space-x-3">
             <div onClick={() => Reaction("like")} id="like" className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer">{reaction == "like" ? <FontAwesome.FaThumbsUp /> : <FontAwesome.FaRegThumbsUp />}<p className='user-select: none'>{likes || '0'}</p></div>
             <div onClick={() => Reaction("dislike")} id="dislike" className="presentation__content-title-action flex items-center space-x-2 dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-2 rounded-full cursor-pointer">{reaction == "dislike" ? <FontAwesome.FaThumbsDown /> : <FontAwesome.FaRegThumbsDown />}<p className='user-select: none'>{dislikes || '0'}</p></div>
-            <a href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-3 rounded-full"><FontAwesome.FaFileDownload /></a>
+            <a onClick={() => updateDoc(docRef, { "info.stats.downloads": increment(1) })} href={link} target="_blank" rel="noopener noreferrer" className="presentation__content-title-action flex items-center dark:text-white bg-gray-200 border border-gray-300 dark:border-slate-700 dark:bg-slate-800 p-3 rounded-full"><FontAwesome.FaFileDownload /></a>
           </div>
         </div>
       </div>
