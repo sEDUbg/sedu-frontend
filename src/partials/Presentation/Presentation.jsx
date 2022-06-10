@@ -68,13 +68,13 @@ const Presentation = ({ title, type, uuid, link }) => {
   }, [reaction])
   useEffect(() => {
     getDoc(docRef).then(doc => {
-      const arr = doc.data().info.stats.responseList;
+      const arr = doc.data().info.stats?.responseList;
       if (userId in arr) {
         setReaction(arr[userId] == 1 ? 'like' : arr[userId] == -1 ? 'dislike' : '');
       }
 
-      setLikes(doc.data().info.stats.likes);
-      setDislikes(doc.data().info.stats.dislikes);
+      setLikes(doc.data().info.stats?.likes);
+      setDislikes(doc.data().info.stats?.dislikes);
       setLoad(true);
     })
   }, [])
