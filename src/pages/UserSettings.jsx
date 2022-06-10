@@ -62,7 +62,7 @@ const UserSettings = () => {
   const handleAction = (e) => {
     e.preventDefault();
     // console.log(file)
-    if (userDataChange) {
+    if (userDataChange && file != null) {
       const storage = getStorage(app);
       const db = getFirestore(app);
       const storageRef = ref(storage, 'Profile/' + file.name);
@@ -73,15 +73,21 @@ const UserSettings = () => {
         console.log(err);
       }, () => {
         const url = 'https://storage.googleapis.com/sedubg-2022.appspot.com/Profile/' + file.name;
-
+        var user = { FirstName: firstName, LastName: lastName, school: school.current.value, class: grade, bio: bio, profileUrl: url };
         setUserDataChange(false);
         setButton("промени");
         const docRef = doc(db, 'StripeCustomers', id);
-        updateDoc(docRef, { FirstName: firstName, LastName: lastName, school: school.current.value, class: grade, bio: bio, profileUrl: url });
+        updateDoc(docRef, user);
         sessionStorage.setItem('ImageUrl', url);
       });
 
 
+    } else if (userDataChange) {
+      var user = { FirstName: firstName, LastName: lastName, school: school.current.value, class: grade, bio: bio }
+      setUserDataChange(false);
+      setButton("промени");
+      const docRef = doc(db, 'StripeCustomers', id);
+      updateDoc(docRef, user);
     } else {
       setUserDataChange(true);
       setButton("запази");
