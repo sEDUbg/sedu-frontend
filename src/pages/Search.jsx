@@ -18,11 +18,11 @@ const Search = () => {
         clickPoint.current.style.display = "block";
     };
     return (
-        <div className="items-center px-4 flex justify-center" >
-            <div className="relative mr-3">
+        <div className="w-full flex flex-col justify-content items-center m-auto">
+            <div >
                 <InstantSearch searchClient={searchClient} indexName="materials">
                     <SearchBox />
-                    <Hits hitComponent={Material} />
+                    <Hits hitComponent={Material} className="materials"/>
                 </InstantSearch>
             </div>
         </div>

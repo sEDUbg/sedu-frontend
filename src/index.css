@@ -20,3 +20,34 @@ iframe {
   border-radius: 1rem;
   border: none;
 }
+
+/* @layer components {
+  .ais-Hits-list {
+    @apply w-11/12 lg:p-5 pt-5 grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-4 gap-y-6;
+  }
+} */
+
+.ais-Hits-list {
+  width: 92%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem/* 16px */;
+  row-gap: 1.5rem/* 24px */;
+}
+
+.ais-SearchBox-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.ais-SearchBox-input {
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+}
+
+.ais-SearchBox-input:focus {
+  outline: none;
+}
