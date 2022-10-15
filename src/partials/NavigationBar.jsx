@@ -154,7 +154,7 @@ const NavigationBar = (isLoggedInObject) => {
             {userNavigation?.map((item) => (
               <Disclosure.Button
                 key={item.name}
-                as="Link"
+                as="as"
                 to={item.href}
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
               >
@@ -186,7 +186,7 @@ const NavigationBar = (isLoggedInObject) => {
                       alt="sedubg logo"
                     />
                   </div>
-                  <div className="hidden lg:block max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                  <div className="md:hidden lg:block max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <h1 className="text-3xl font-black text-gray-900 dark:text-gray-100">
                       {title}
                     </h1>
@@ -233,7 +233,7 @@ const NavigationBar = (isLoggedInObject) => {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="Link"
+                  as="as"
                   to={item.href}
                   className={classNames(
                     item.current
