@@ -1,12 +1,13 @@
-import AdSense from 'react-adsense';
-import Materials from './Materials';
+import AdSense from "react-adsense";
+
+import Materials from "./Materials";
 
 const Home = () => {
-    return (
-        <>
-            <Materials groupBy="Presentations" />
-        </>
-    )
-}
+  return (
+    <>
+      {/* <Materials groupBy="Presentations" /> */}
+    </>
+  );
+};
 
 export default Home;
