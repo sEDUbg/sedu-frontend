@@ -154,7 +154,7 @@ const NavigationBar = (isLoggedInObject) => {
             {userNavigation?.map((item) => (
               <Disclosure.Button
                 key={item.name}
-                as="a"
+                href="a"
                 to={item.href}
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
               >
@@ -234,7 +234,7 @@ const NavigationBar = (isLoggedInObject) => {
                 <Disclosure.Button
                   key={item.name}
                   as="a"
-                  to={item.href}
+                  href={item.href}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
