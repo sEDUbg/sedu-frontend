@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Welcome = () => {
   return (
     <section className="relative">
@@ -29,15 +31,15 @@ const Welcome = () => {
                 data-aos="zoom-y-out"
                 data-aos-delay="300"
               >
-                <a
-                  className="px-5 py-4 rounded-md dark:text-white dark:bg-slate-800 dark:hover:bg-slate-700 border border-gray-200 dark:border-slate-700"
-                  href="#plans"
+                <Link
+                  className="px-5 py-4 rounded-md dark:text-white bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600"
+                  to="/register"
                 >
-                  вижте плановете
-                </a>
+                  регистрирай се
+                </Link>
                 <a
-                  className="px-5 py-4 rounded-md dark:text-white dark:bg-slate-900 dark:hover:bg-slate-800 border border-gray-200 dark:border-slate-800"
-                  href="#0"
+                  className="px-5 py-4 rounded-md dark:text-white dark:bg-slate-900 hover:bg-gray-100 dark:hover:bg-slate-800 border border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700"
+                  href="#how-it-works"
                 >
                   научете повече
                 </a>
@@ -64,11 +66,11 @@ const Welcome = () => {
                 ></iframe>
               </div>
               <a
-                className="absolute top-full flex items-center transform -translate-y-1/2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-full font-medium group p-4 shadow-lg"
+                className="absolute top-full flex items-center transform -translate-y-1/2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 hover:border-gray-200 dark:hover:border-slate-600 rounded-full font-medium group p-4 shadow-lg"
                 href="https://youtu.be/mwL1noMFx-E"
               >
                 <svg
-                  className="w-6 h-6 fill-current text-gray-400 group-hover:text-slate-300 flex-shrink-0"
+                  className="w-6 h-6 fill-current text-gray-400 dark:group-hover:text-slate-300 group-hover:text-black flex-shrink-0"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -78,13 +80,6 @@ const Welcome = () => {
                 <span className="ml-3">гледайте в YouTube</span>
               </a>
             </div>
-
-            {/* Modal */}
-            {/* <Modal id="modal" ariaLabel="modal-headline" show={videoModalOpen} handleClose={() => setVideoModalOpen(false)}>
-                    <div className="relative pb-9/16">
-                        <iframe className="absolute w-full h-full" src="https://player.vimeo.com/video/174002812" title="Video" allowFullScreen></iframe>
-                    </div>
-        </Modal> */}
           </div>
         </div>
       </div>
