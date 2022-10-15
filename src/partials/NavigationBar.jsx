@@ -154,7 +154,7 @@ const NavigationBar = (isLoggedInObject) => {
             {userNavigation?.map((item) => (
               <Disclosure.Button
                 key={item.name}
-                as="as"
+                as="a"
                 to={item.href}
                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
               >
@@ -233,7 +233,7 @@ const NavigationBar = (isLoggedInObject) => {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="as"
+                  as="a"
                   to={item.href}
                   className={classNames(
                     item.current
