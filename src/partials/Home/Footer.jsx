@@ -3,10 +3,10 @@ import * as FontAwesome from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 my-8">
-        <div className="md:flex md:items-center md:justify-between py-4 md:py-8 border-t border-gray-200 dark:border-slate-800">
-          <ul className="flex mb-4 md:order-1 md:ml-4 md:mb-0">
+    <footer className="w-full">
+      <div className="w-full flex item-center justify-center max-w-6xl mx-auto px-4 sm:px-6 my-8">
+        <div className="w-full md:flex md:items-center md:justify-between py-4 md:py-8 border-t border-gray-200 dark:border-slate-800">
+          <ul className="flex items-center justify-center mb-4 md:order-1 md:ml-4 md:mb-0">
             <li>
               <a
                 href="https://instagram.com/sedubg"
