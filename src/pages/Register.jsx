@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -228,13 +228,16 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               .
             </div>
             <ToastContainer id="Toastify" />
-            <div className="flex justify-center items-center mt-6">
+            <div className="flex flex-col justify-center items-center mt-6 space-y-4">
               <button
-                className={`dark:bg-slate-800 py-2 px-4 text-sm text-black dark:text-white rounded border dark:border-slate-700 focus:outline-none focus:border-green-dark`}
+                className={`px-4 py-2 rounded text-lg dark:bg-slate-800 dark:hover:bg-slate-700 border  dark:border-slate-700 dark:hover:border-slate-600 text-black dark:text-white focus:outline-none focus:border-green-dark`}
                 onClick={handleAction}
               >
                 регистрация
               </button>
+              <Link to="/login" className="underline opacity-80 hover:opacity-100">
+                вече имаш акаунт?
+              </Link>
             </div>
           </form>
         </div>
