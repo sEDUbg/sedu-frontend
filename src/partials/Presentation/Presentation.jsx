@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import * as FontAwesome from "react-icons/fa";
 import { app } from "../../utils/Firebase/firebase";
+import PresentationSkeleton from "./Skeletons/Presentation";
 
 const Presentation = ({ title, type, uuid, link }) => {
   // useEffect(() => { const user = createPromoCode(); console.log(user) })
@@ -91,7 +92,8 @@ const Presentation = ({ title, type, uuid, link }) => {
       disableFileName: true,
     },
   };
-  if (link === undefined) return null;
+
+  if (link === undefined) return <PresentationSkeleton />;
 
   const Reaction = (inReact) => {
     // console.log(kids)
