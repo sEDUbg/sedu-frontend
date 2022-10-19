@@ -3,14 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-import { app } from "../utils/Firebase/firebase";
-import {
-  browserLocalPersistence,
-  getAuth,
-  setPersistence,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import axios from 'axios';
 
 // [TODO]: Implement https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/gister
 
@@ -22,61 +15,75 @@ const Login = ({ setIsLoggedIn, setShowNav }) => {
 
   const handleAction = (e) => {
     e.preventDefault();
-    const authentication = getAuth(app);
-    setPersistence(authentication, browserLocalPersistence)
-      .then(() => {
-        signInWithEmailAndPassword(authentication, email, password)
-          .then((response) => {
-            sessionStorage.setItem("User ID", authentication.currentUser.uid);
-            const user_doc = doc(
-              getFirestore(app),
-              "StripeCustomers",
-              authentication.currentUser.uid
-            );
-            getDoc(user_doc).then((response) => {
-              sessionStorage.setItem("ImageUrl", response.data().profileUrl);
-              sessionStorage.setItem(
-                "User Name",
-                response.data().FirstName + " " + response.data().LastName
-              );
-              sessionStorage.setItem("User Email", email);
-            });
+    // const authentication = getAuth(app);
+    // setPersistence(authentication, browserLocalPersistence)
+    //   .then(() => {
+    //     signInWithEmailAndPassword(authentication, email, password)
+    //       .then((response) => {
+    //         sessionStorage.setItem("User ID", authentication.currentUser.uid);
+    //         const user_doc = doc(
+    //           getFirestore(app),
+    //           "StripeCustomers",
+    //           authentication.currentUser.uid
+    //         );
+    //         getDoc(user_doc).then((response) => {
+    //           sessionStorage.setItem("ImageUrl", response.data().profileUrl);
+    //           sessionStorage.setItem(
+    //             "User Name",
+    //             response.data().FirstName + " " + response.data().LastName
+    //           );
+    //           sessionStorage.setItem("User Email", email);
+    //         });
 
-            setIsLoggedIn(true);
-            setShowNav(true);
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log(error.code);
-            if (
-              error.code === "auth/invalid-email" &&
-              !toast.isActive("invalid-email")
-            ) {
-              toast.error("невалиден имейл адрес", {
-                toastId: "invalid-email",
-              });
-            }
-            if (
-              error.code === "auth/user-not-found" &&
-              !toast.isActive("user-not-found")
-            ) {
-              toast.error("грешен имейл адрес, моля опитайте отново", {
-                toastId: "user-not-found",
-              });
-            }
-            if (
-              error.code === "auth/wrong-password" &&
-              !toast.isActive("wrong-password")
-            ) {
-              toast.error("грешна парола, моля опитайте отново", {
-                toastId: "wrong-password",
-              });
-            }
-          });
-      })
-      .catch((error) => {
-        console.log(error.code, error.message);
-      });
+    //         setIsLoggedIn(true);
+    //         setShowNav(true);
+    //         navigate("/");
+    //       })
+    //       .catch((error) => {
+    //         console.log(error.code);
+    //         if (
+    //           error.code === "auth/invalid-email" &&
+    //           !toast.isActive("invalid-email")
+    //         ) {
+    //           toast.error("невалиден имейл адрес", {
+    //             toastId: "invalid-email",
+    //           });
+    //         }
+    //         if (
+    //           error.code === "auth/user-not-found" &&
+    //           !toast.isActive("user-not-found")
+    //         ) {
+    //           toast.error("грешен имейл адрес, моля опитайте отново", {
+    //             toastId: "user-not-found",
+    //           });
+    //         }
+    //         if (
+    //           error.code === "auth/wrong-password" &&
+    //           !toast.isActive("wrong-password")
+    //         ) {
+    //           toast.error("грешна парола, моля опитайте отново", {
+    //             toastId: "wrong-password",
+    //           });
+    //         }
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.code, error.message);
+    //   });
+    axios.post("http://localhost:8080/api/auth/login", { identifier: email, password: password }, { withCredentials: true }).then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        setIsLoggedIn(true);
+        setShowNav(true);
+        navigate("/");
+        sessionStorage.setItem("User ID", response.data.user.ID);
+        sessionStorage.setItem("User Name",
+          response.data.user.FirstName + " " + response.data.user.LastName);
+        sessionStorage.setItem("User Email", response.data.user.Email);
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 
   const getInput = (e) => {

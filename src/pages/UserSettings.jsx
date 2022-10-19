@@ -23,7 +23,7 @@ const schooList = [
   "Първа частна математическа гимназия",
 ];
 
-const UserSettings = () => {
+const UserSettings = ({user}) => {
   const [userData, setUserData] = useState(null);
   const [userDataChange, setUserDataChange] = useState(false);
   const [button, setButton] = useState("промени");
@@ -59,8 +59,6 @@ const UserSettings = () => {
   useEffect(() => {
     if (file != null) setImage(URL.createObjectURL(file));
   }, [file]);
-
-  const { id } = useParams();
 
   const handleAction = (e) => {
     e.preventDefault();
