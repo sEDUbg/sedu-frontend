@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import AuthorSkeleton from "./Skeletons/Author";
 import Specs from "./Author/Specs";
 import Stats from "./Author/Stats";
 
@@ -8,11 +9,13 @@ const Author = ({ presentation, author, type }) => {
     console.log(presentation);
   }, [presentation]);
 
+  if (!author?.FirstName) return <AuthorSkeleton />;
+
   return (
     <div className="presentation__author bg-gray-100 dark:bg-slate-900 rounded-2xl p-5 dark:text-white divide-y dark:divide-slate-800 space-y-4 border dark:border-slate-800">
       <div className="flex space-x-4 items-center">
         <img
-          className="flex-initial w-1/3 rounded-full border dark:border-slate-800 aspect-square"
+          className="flex-initial w-24 rounded-full border dark:border-slate-800 aspect-square"
           src={author.profileUrl || "/img/default.png"}
           alt={author.Username}
         />
