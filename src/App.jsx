@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import axios from 'axios';
+import axios from "axios";
 
 import AOS from "aos";
 import "./css/App.css";
@@ -9,7 +9,6 @@ import "aos/dist/aos.css";
 
 import NavigationBar from "./partials/NavigationBar";
 import VirtualRoutes from "./routes/Routes";
-
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -56,6 +55,11 @@ const App = () => {
               var user = response.data.user;
               setCurrentUser(user);
             }
+          })
+          .catch((error) => {
+            console.log(error);
+            localStorage.clear();
+            setIsLoggedIn(false);
           });
       }
     }
@@ -100,7 +104,6 @@ const App = () => {
       setIsLoggedIn(true);
       setIsPremium(currentUser.UserStatus.Premium);
       // setShowNav(true);
-
     } else if (
       localStorage.getItem("User ID") == null ||
       localStorage.getItem("User ID") == undefined
