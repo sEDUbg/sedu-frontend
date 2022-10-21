@@ -10,6 +10,7 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { getFirestore, setDoc, doc, Timestamp } from "firebase/firestore";
+import axios from "axios";
 
 const Register = ({ setIsLoggedIn, setShowNav }) => {
   const navigate = useNavigate();
@@ -25,41 +26,32 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
 
   const handleAction = (e) => {
     e.preventDefault();
-    const authentication = getAuth(app);
-    createUserWithEmailAndPassword(
-      authentication,
-      email,
-      password.current.value
-    )
+    console.log("TEST", password.current.value);
+    axios
+      .post(
+        "https://monkfish-app-swhuo.ondigitalocean.app/api/auth/register",
+        {
+          email: email,
+          password: password.current.value,
+          first_name: firstName,
+          last_name: lastName,
+          username: username,
+        },
+        { withCredentials: true }
+      )
       .then((response) => {
-        const firestore = getFirestore(app);
-        const user_info = {
-          FirstName: firstName,
-          LastName: lastName,
-          Username: username,
-          Payment: "",
-          bio: "",
-          class: 0,
-          expirationDate: Timestamp.now(),
-          profileUrl: "",
-          school: "",
-          regFinish: false,
-        };
-        setDoc(doc(firestore, "StripeCustomers", response.user.uid), user_info);
-        navigate("/");
-        sendEmailVerification(authentication.currentUser)
-          .then(() => {
-            toast.success(
-              "Вашият акаунт е създаден, моля проверете вашият имейл адрес за потвърждение"
-            );
-            sessionStorage.setItem("User ID", authentication.currentUser.uid);
-            setIsLoggedIn(true);
-            setShowNav(true);
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        console.log(response);
+        if (response.status === 201) {
+          setIsLoggedIn(true);
+          setShowNav(true);
+          navigate("/");
+          localStorage.setItem("User ID", response.data.user.ID);
+          localStorage.setItem(
+            "User Name",
+            response.data.user.FirstName + " " + response.data.user.LastName
+          );
+          localStorage.setItem("User Email", response.data.user.Email);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -235,7 +227,10 @@ const Register = ({ setIsLoggedIn, setShowNav }) => {
               >
                 регистрация
               </button>
-              <Link to="/login" className="underline opacity-80 hover:opacity-100">
+              <Link
+                to="/login"
+                className="underline opacity-80 hover:opacity-100"
+              >
                 вече имаш акаунт?
               </Link>
             </div>

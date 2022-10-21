@@ -7,7 +7,7 @@ const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
 const NavigationBar = (isLoggedInObject) => {
   const title = "sEDUbg";
-  const userID = sessionStorage.getItem("User ID");
+  const userID = localStorage.getItem("User ID");
   const isLoggedIn = isLoggedInObject.isLoggedIn;
   const navigation = isLoggedIn
     ? [
@@ -38,9 +38,9 @@ const NavigationBar = (isLoggedInObject) => {
     : null;
 
   const user = {
-    name: sessionStorage.getItem("User Name"),
-    email: sessionStorage.getItem("User Email"),
-    imageUrl: sessionStorage.getItem("ImageUrl") || "/img/default.png",
+    name: localStorage.getItem("User Name"),
+    email: localStorage.getItem("User Email"),
+    imageUrl: localStorage.getItem("ImageUrl") || "/img/default.png",
   };
 
   const Usr = () => {

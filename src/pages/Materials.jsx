@@ -14,46 +14,9 @@ import { app } from "../utils/Firebase/firebase";
 import { Link } from "react-router-dom";
 
 import MaterialsLoading from "./MaterialsLoading";
+import axios from "axios";
 
 // [TODO] -> We'll finaly have a normal fetch, with the new backend
-
-const getAuthor = async (uid) => {
-  const author = await getDoc(doc(getFirestore(app), "StripeCustomers", uid));
-  if (author.exists()) {
-    return author.data();
-  }
-  return null;
-};
-
-/* const NEWgetAuthor = (uid) => {
-    return new Promise((resolve, reject) => {
-        const author = getDoc(doc(getFirestore(app), 'StripeCustomers', uid));
-
-        if (author.exists()) resolve(author.data());
-        else reject(Error(null));
-    });
-};
-
-const getGrid = async (type) => {
-    const grid = await getDocs(collection(getFirestore(app), type));
-    const promises = grid?.docs.map(item => getAuthor(item.data().Author.id));
-    const authors = await Promise.all(promises);
-    const gridData = authors.map(author => {
-        //console.log(item.data());
-      return {
-          title: item.data().title,
-          link: "/materials/type=" + type + "/uuid=" + item.id,
-          thumbnail: "#",
-          type: type,
-          authors: [{
-            name: author.FirstName + " " + author.LastName,
-            imageUrl: author.profileUrl,
-            profileUrl: "/user/id=" + author.id
-          }]
-      }
-    });
-    return gridData;
-} */
 
 const OLDgetGrid = async (type) => {
   const grid = await getDocs(collection(getFirestore(app), type));
@@ -91,6 +54,7 @@ const Material = ({ info }) => {
     Documents: "план по",
     Pictures: "материал за",
   };
+
   // console.log(info)
   return (
     <Link
@@ -129,13 +93,29 @@ const Materials = ({ groupBy }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Fetching grid data...", groupBy);
+  }, []);
+
+
+  useEffect(() => {
     setLoading(true);
-    OLDgetGrid(groupBy)
-      .then((grid) => {
-        setGrid(grid);
+    console.log("Fetching grid data...");
+    axios
+      .get("https://monkfish-app-swhuo.ondigitalocean.app/api/post/get-grid", {
+        orderBy: "views",
+        parsePost: {
+          tags: [],
+          subject: "",
+          type: { groupBy },
+          grade: 0,
+        },
       })
-      .then(() => setLoading(false));
-    //.then(setTimeout(function() { setLoading(false); }, 1000000));
+      .then((response) => {
+        console.log("OPPA", response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [groupBy]);
 
   // [TODO] Animation between skeleton and grid

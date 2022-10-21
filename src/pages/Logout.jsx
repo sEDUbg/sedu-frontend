@@ -7,19 +7,24 @@ const Logout = ({ setIsLoggedIn, setShowNav }) => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/user/logout", { withCredentials: true }).then((response) => {
-      if (response.status === 200) {
-        sessionStorage.setItem("User ID", "");
-        sessionStorage.setItem("User Name", "");
-        sessionStorage.setItem("User Email", "");
-        sessionStorage.setItem("ImageUrl", "");
-        setIsLoggedIn(false);
-        setShowNav(true);
-        navigate("/");
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .get("https://monkfish-app-swhuo.ondigitalocean.app/api/auth/logout", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem("User ID", "");
+          localStorage.setItem("User Name", "");
+          localStorage.setItem("User Email", "");
+          localStorage.setItem("ImageUrl", "");
+          setIsLoggedIn(false);
+          setShowNav(true);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (

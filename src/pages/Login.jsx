@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-import axios from 'axios';
+import axios from "axios";
 
 // [TODO]: Implement https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/gister
 
@@ -70,20 +70,29 @@ const Login = ({ setIsLoggedIn, setShowNav }) => {
     //   .catch((error) => {
     //     console.log(error.code, error.message);
     //   });
-    axios.post("http://localhost:8080/api/auth/login", { identifier: email, password: password }, { withCredentials: true }).then((response) => {
-      console.log(response);
-      if (response.status === 200) {
-        setIsLoggedIn(true);
-        setShowNav(true);
-        navigate("/");
-        sessionStorage.setItem("User ID", response.data.user.ID);
-        sessionStorage.setItem("User Name",
-          response.data.user.FirstName + " " + response.data.user.LastName);
-        sessionStorage.setItem("User Email", response.data.user.Email);
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .post(
+        "https://monkfish-app-swhuo.ondigitalocean.app/api/auth/login",
+        { identifier: email, password: password },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+          setShowNav(true);
+          navigate("/");
+          localStorage.setItem("User ID", response.data.user.ID);
+          localStorage.setItem(
+            "User Name",
+            response.data.user.FirstName + " " + response.data.user.LastName
+          );
+          localStorage.setItem("User Email", response.data.user.Email);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const getInput = (e) => {

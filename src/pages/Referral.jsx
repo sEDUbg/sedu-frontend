@@ -60,7 +60,7 @@ const Referral = ({ setIsLoggedIn, setShowNav }) => {
             toast.success(
               "Вашият акаунт е създаден, моля проверете вашият имейл адрес за потвърждение"
             );
-            sessionStorage.setItem("User ID", authentication.currentUser.uid);
+            localStorage.setItem("User ID", authentication.currentUser.uid);
             setIsLoggedIn(true);
             setShowNav(true);
             navigate("/");

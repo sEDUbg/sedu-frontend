@@ -90,7 +90,7 @@ const UserSettings = ({user}) => {
           setButton("промени");
           const docRef = doc(db, "StripeCustomers", id);
           updateDoc(docRef, user);
-          sessionStorage.setItem("ImageUrl", url);
+          localStorage.setItem("ImageUrl", url);
         }
       );
     } else if (userDataChange) {

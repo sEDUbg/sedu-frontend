@@ -15,7 +15,7 @@ const Presentation = ({ title, type, uuid, link }) => {
   // useEffect(() => { const user = createPromoCode(); console.log(user) })
   let fileType = String(link).split(".").pop();
   const docRef = doc(getFirestore(app), type, uuid);
-  const userId = sessionStorage.getItem("User ID").toString();
+  const userId = localStorage.getItem("User ID").toString();
   const [load, setLoad] = useState(false);
   const [reaction, setReaction] = useState("");
   const [likes, setLikes] = useState(0);

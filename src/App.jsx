@@ -31,13 +31,13 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn === null) {
-      console.log(sessionStorage.getItem("User ID"));
+      console.log(localStorage.getItem("User ID"));
       if (
-        sessionStorage.getItem("User ID") == null ||
-        sessionStorage.getItem("User ID") == undefined ||
-        sessionStorage.getItem("User ID") == "undefined" ||
-        sessionStorage.getItem("User ID") == "null" ||
-        sessionStorage.getItem("User ID") == ""
+        localStorage.getItem("User ID") == null ||
+        localStorage.getItem("User ID") == undefined ||
+        localStorage.getItem("User ID") == "undefined" ||
+        localStorage.getItem("User ID") == "null" ||
+        localStorage.getItem("User ID") == ""
       ) {
         setIsLoggedIn(false);
       } else {
@@ -46,13 +46,17 @@ const App = () => {
         //   setCurrentUser(user);
         //   console.log("AFTER", user);
         // });
-        axios.get("http://localhost:8080/api/user/me", { withCredentials: true }).then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            var user = response.data.user;
-            setCurrentUser(user);
-          }
-        });
+        axios
+          .get("https://monkfish-app-swhuo.ondigitalocean.app/api/user/me", {
+            withCredentials: true,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              console.log(response.data);
+              var user = response.data.user;
+              setCurrentUser(user);
+            }
+          });
       }
     }
     //setIsLoggedIn(false);
@@ -86,20 +90,20 @@ const App = () => {
       //   setIsLoggedIn(true);
       //   setIsPremium(checkPremium(currentUser?.uid));
 
-      sessionStorage.setItem("User ID", currentUser.ID);
+      localStorage.setItem("User ID", currentUser.ID);
       // sessionStorage.setItem("ImageUrl", response.data.profileUrl);
-      sessionStorage.setItem(
+      localStorage.setItem(
         "User Name",
         currentUser.FirstName + " " + currentUser.LastName
       );
-      sessionStorage.setItem("User Email", currentUser.Email);
+      localStorage.setItem("User Email", currentUser.Email);
       setIsLoggedIn(true);
       setIsPremium(currentUser.UserStatus.Premium);
       // setShowNav(true);
 
     } else if (
-      sessionStorage.getItem("User ID") == null ||
-      sessionStorage.getItem("User ID") == undefined
+      localStorage.getItem("User ID") == null ||
+      localStorage.getItem("User ID") == undefined
     ) {
       console.log("USER CHANGED!!!");
       setIsLoggedIn(false);
