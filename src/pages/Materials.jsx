@@ -1,54 +1,10 @@
-import {
-  collection,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-  doc,
-} from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { getFirestore } from "firebase/firestore";
-import { app } from "../utils/Firebase/firebase";
 import { Link } from "react-router-dom";
 
 import MaterialsLoading from "./MaterialsLoading";
 import axios from "axios";
 
-// [TODO] -> We'll finaly have a normal fetch, with the new backend
-
-const OLDgetGrid = async (type) => {
-  const grid = await getDocs(collection(getFirestore(app), type));
-  // const gridQuery = query(collection(getFirestore(app), type), limit());
-
-  const promisesA = grid?.docs.map((item) => getAuthor(item.data().Author.id));
-  const authors = await Promise.all(promisesA);
-  let i = 0; // Най-C-яджийският начин да се направи
-  const promises = grid?.docs.map((item) => {
-    const author = authors[i++]; // буквално, ще бъде направено със Promises, ама не сега + това работи
-    console.log(author);
-    return {
-      title: item.data().title,
-      link: "/materials/type=" + type + "/uuid=" + item.id,
-      thumbnail: "#",
-      type: type,
-      subject: item.data().info.specs.subject,
-      class: item.data().info.specs.class,
-      authors: [
-        {
-          name: author.FirstName + " " + author.LastName,
-          imageUrl: author.profileUrl,
-          profileUrl: "/user/id=" + author.id,
-        },
-      ],
-    };
-  });
-  const gridData = await Promise.all(promises);
-  return gridData;
-};
-
-const Material = ({ info }) => {
+const Material = ({ authors, post, tags, files }) => {
   const type = {
     Presentations: "презентация по",
     Documents: "план по",
@@ -58,28 +14,29 @@ const Material = ({ info }) => {
   // console.log(info)
   return (
     <Link
-      to={info.link || "#"}
+      to={"#"}
       className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border"
     >
       <img
-        src={info.thumbnail === "#" ? "/seduthumb.png" : info.thumbnail}
+        src={ "/seduthumb.png"}
         className="thumbnail aspect-video rounded-2xl"
       />
       <div className="flex items-center p-3 space-x-4">
         <div to="">
           <img
-            src={info.authors[0].imageUrl || "/img/default.png"}
+            src={authors[0].User.Avatar || "/img/default.png"}
             className="w-12 block aspect-square rounded-full"
           />
         </div>
         <div className="flex flex-col">
-          <h3 className="text-lg font-bold">{info.title}</h3>
+          <h3 className="text-lg font-bold">{post.Title}</h3>
           <p className="text-sm text-gray-500">
-            {type[info?.type]} {info?.subject || "(null)"} {info?.class}
+            {post.PostType.Name} {post.PostSubject.Name || "(null)"}{" "}
+            {post.Grade}
           </p>
-          {info.authors.map((author, index) => (
+          {authors.map((author, index) => (
             <p key={index} className="text-sm text-gray-500">
-              {author.name}
+              {author.User.FirstName}
             </p>
           ))}
         </div>
@@ -96,22 +53,23 @@ const Materials = ({ groupBy }) => {
     console.log("Fetching grid data...", groupBy);
   }, []);
 
-
   useEffect(() => {
     setLoading(true);
-    console.log("Fetching grid data...");
+    console.log("Fetching grid data...", groupBy);
     axios
-      .get("https://monkfish-app-swhuo.ondigitalocean.app/api/post/get-grid", {
+      .post("https://monkfish-app-swhuo.ondigitalocean.app/api/post/get-grid", {
         orderBy: "views",
         parsePost: {
           tags: [],
           subject: "",
-          type: { groupBy },
+          type: groupBy,
           grade: 0,
         },
       })
       .then((response) => {
         console.log("OPPA", response);
+        setGrid(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -125,7 +83,9 @@ const Materials = ({ groupBy }) => {
     <div className="w-full flex flex-col justify-content items-center m-auto transition ease-in-out delay-150">
       <div className="materials w-11/12 lg:p-5 pt-5 grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 gap-4 gap-y-6">
         {grid.length > 0 ? (
-          grid.map((info) => <Material key={info.link} info={info} />)
+          grid.map((material) => (
+            <Material key={material.post.ID} {...material} />
+          ))
         ) : (
           <div className="w-full flex flex-col justify-content items-center m-auto">
             {" "}
