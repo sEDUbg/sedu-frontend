@@ -3,22 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 import { FileDrop } from "react-file-drop";
-import { app } from "../utils/Firebase/firebase";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import {
-  getFirestore,
-  doc,
-  addDoc,
-  collection,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import axios from "axios";
 
 //import UploadFile from "../partials/Upload/UploadFile";
 
@@ -88,19 +73,6 @@ const Upload = () => {
         });
       }
     } else {
-      const db = getFirestore(app);
-      const collectionRef = collection(db, "corridor");
-      var corridorRef;
-      addDoc(collectionRef, { origin: "", ref: {} })
-        .then((docRef) => {
-          corridorRef = doc(db, "corridor", docRef.id);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      const auth = getAuth(app);
-      const storage = getStorage(app);
-      //const storageRef = ref(storage, `/Presentations/${file.name}`);
       var path;
       if (type.current.value === "презентация") {
         path = "Presentations";
@@ -115,59 +87,36 @@ const Upload = () => {
       } else {
         path = "Other";
       }
-      const storageRef = ref(storage, path + "/" + file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-          const url =
-            "https://storage.googleapis.com/sedubg-2022.appspot.com/" +
-            path +
-            "/" +
-            file.name;
-
-          const presentationsRef = collection(db, path);
-          const userRef = doc(db, "StripeCustomers", auth.currentUser.uid);
-          const presentationData = {
-            Author: userRef,
-            corridor: corridorRef,
-            file: url,
-            info: {
-              description: description,
-              specs: { class: grade, subject: subject.current.value },
-              stats: {
-                comments: 0,
-                downloads: 0,
-                forks: 0,
-                likes: 0,
-                views: 0,
-              },
+      console.log("FILE: ", file);
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("grade", grade);
+      formData.append("subject", subject.current.value);
+      formData.append("type", type.current.value);
+      formData.append("file", [file]);
+      formData.append("tags", []);
+      axios
+        .post(
+          "https://monkfish-app-swhuo.ondigitalocean.app/api/post/create",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-            origin: true,
-            title: title,
-          };
-          addDoc(presentationsRef, presentationData).then((docRef) => {
-            updateDoc(corridorRef, {
-              ref: arrayUnion(doc(db, path, docRef.id)),
-              origin: docRef.id,
-            }).then(() => {
-              toast.success("Успешно качено");
-            });
-          });
-        }
-      );
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
+
   const getInput = (e) => {
     if (e.target.id === "title") {
       setTitle(e.target.value);

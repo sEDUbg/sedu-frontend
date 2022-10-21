@@ -1,24 +1,23 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import MaterialsLoading from "./MaterialsLoading";
 import axios from "axios";
 
-const Material = ({ authors, post, tags, files }) => {
-  const type = {
-    Presentations: "презентация по",
-    Documents: "план по",
-    Pictures: "материал за",
-  };
+import MaterialsLoading from "./MaterialsLoading";
 
-  // console.log(info)
+const TYPE = {
+  Presentations: "презентация по",
+  Documents: "план по",
+  Pictures: "материал за",
+};
+
+const Material = ({ authors, post, tags, files }) => {
   return (
     <Link
       to={"#"}
       className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border"
     >
       <img
-        src={ "/seduthumb.png"}
+        src={"/seduthumb.png"}
         className="thumbnail aspect-video rounded-2xl"
       />
       <div className="flex items-center p-3 space-x-4">
@@ -50,12 +49,8 @@ const Materials = ({ groupBy }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Fetching grid data...", groupBy);
-  }, []);
-
-  useEffect(() => {
     setLoading(true);
-    console.log("Fetching grid data...", groupBy);
+
     axios
       .post("https://monkfish-app-swhuo.ondigitalocean.app/api/post/get-grid", {
         orderBy: "views",
@@ -76,7 +71,6 @@ const Materials = ({ groupBy }) => {
       });
   }, [groupBy]);
 
-  // [TODO] Animation between skeleton and grid
   if (loading) return <MaterialsLoading limit={12} />;
 
   return (
