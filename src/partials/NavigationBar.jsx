@@ -11,30 +11,30 @@ const NavigationBar = (isLoggedInObject) => {
   const isLoggedIn = isLoggedInObject.isLoggedIn;
   const navigation = isLoggedIn
     ? [
-        { name: "начало", href: "/", current: true },
-        { name: "презентации", href: "/presentations", current: false },
-        { name: "планове", href: "/plans", current: false },
-        { name: "материали", href: "/materials", current: false },
-        { name: "тренд", href: "/trending", current: false },
-        { name: "търси...", href: "/search", current: false },
-      ]
+      { name: "начало", href: "/", current: true },
+      { name: "презентации", href: "/presentations", current: false },
+      { name: "планове", href: "/plans", current: false },
+      { name: "материали", href: "/materials", current: false },
+      { name: "тренд", href: "/trending", current: false },
+      { name: "търси...", href: "/search", current: false },
+    ]
     : [
-        { name: "начало", href: "/", current: true },
-        { name: "вход", href: "/login", current: false },
-        { name: "регистрация", href: "/register", current: false },
-      ];
+      { name: "начало", href: "/", current: true },
+      { name: "вход", href: "/login", current: false },
+      { name: "регистрация", href: "/register", current: false },
+    ];
 
-  let userLink = "/user/id=" + userID + "";
+  let userLink = "/user/edit";
   //console.log(typeof userLink, 'haha', userID)
   //console.log(isLoggedIn)
 
   const userNavigation = isLoggedIn
     ? [
-        { name: "моя профил", href: userLink },
-        { name: "качване", href: "/upload" },
-        { name: "настройки", href: "#" },
-        { name: "излез", href: "/logout" },
-      ]
+      { name: "моя профил", href: userLink },
+      { name: "качване", href: "/upload" },
+      { name: "настройки", href: "#" },
+      { name: "излез", href: "/logout" },
+    ]
     : null;
 
   const user = {

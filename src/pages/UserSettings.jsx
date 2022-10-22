@@ -11,6 +11,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
+import axios from "axios";
+
 const schooList = [
   "91 Немска езикова гимназия 'Професор Константин Гълъбов'",
   "73 СУ с преподаване на чужди езици 'Владислав Граматик'",
@@ -23,7 +25,7 @@ const schooList = [
   "Първа частна математическа гимназия",
 ];
 
-const UserSettings = ({user}) => {
+const UserSettings = () => {
   const [userData, setUserData] = useState(null);
   const [userDataChange, setUserDataChange] = useState(false);
   const [button, setButton] = useState("промени");
@@ -63,48 +65,27 @@ const UserSettings = ({user}) => {
   const handleAction = (e) => {
     e.preventDefault();
     // console.log(file)
-    if (userDataChange && file != null) {
-      const storage = getStorage(app);
-      const db = getFirestore(app);
-      const storageRef = ref(storage, "Profile/" + file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (err) => {
-          console.log(err);
-        },
-        () => {
-          const url =
-            "https://storage.googleapis.com/sedubg-2022.appspot.com/Profile/" +
-            file.name;
-          var user = {
-            FirstName: firstName,
-            LastName: lastName,
-            school: school.current.value,
-            class: grade,
-            bio: bio,
-            profileUrl: url,
-          };
-          setUserDataChange(false);
-          setButton("промени");
-          const docRef = doc(db, "StripeCustomers", id);
-          updateDoc(docRef, user);
-          localStorage.setItem("ImageUrl", url);
-        }
-      );
-    } else if (userDataChange) {
+    if (userDataChange) {
       var user = {
-        FirstName: firstName,
-        LastName: lastName,
+        first_name: firstName,
+        last_name: lastName,
         school: school.current.value,
-        class: grade,
+        grade: grade,
         bio: bio,
+        email: email,
+        username: username,
+        avatar: image
       };
       setUserDataChange(false);
       setButton("промени");
-      const docRef = doc(db, "StripeCustomers", id);
-      updateDoc(docRef, user);
+      axios.post(`https://monkfish-app-swhuo.ondigitalocean.app/api/user/edit`, user, { withCredentials: true })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
     } else {
       setUserDataChange(true);
       setButton("запази");
@@ -135,30 +116,27 @@ const UserSettings = ({user}) => {
     }
   };
 
-  const getData = async () => {
-    const firestore = getFirestore(app);
-    const docRef = doc(firestore, "StripeCustomers", id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log(docSnap.data());
-      // setUserData(docSnap.data());
-      setFirstName(docSnap.data().FirstName);
-      setLastName(docSnap.data().LastName);
-      setEmail(docSnap.data().email);
-      setUsername(docSnap.data().Username);
-      setGrade(docSnap.data().class);
-      setBio(docSnap.data().bio);
-      setImage(docSnap.data().profileUrl);
-      school.current.value = docSnap.data().school;
-    } else {
-      console.log("No such document!");
-      setUserData(null);
-    }
-  };
-
   useEffect(() => {
-    getData();
+    axios
+      .get("https://monkfish-app-swhuo.ondigitalocean.app/api/user/me", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setEmail(response.data.user.Email);
+          setUsername(response.data.user.Username);
+          setFirstName(response.data.user.FirstName);
+          setLastName(response.data.user.LastName);
+          setGrade(response.data.user.UsersInfo.Grade);
+          setBio(response.data.user.UsersInfo.Bio);
+          setImage(response.data.user.UsersInfo.Avatar);
+          School.current = response.data.user.UsersInfo.School.Name;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (

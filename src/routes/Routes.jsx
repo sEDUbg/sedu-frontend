@@ -35,15 +35,15 @@ const VirtualRoutes = ({ isLoggedIn, setIsLoggedIn, setShowNav }) => {
       <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
         <Route
           path="/presentations"
-          element={<Materials groupBy="Presentations" />}
+          element={<Materials groupBy="презентация" />}
         />
-        <Route path="/plans" element={<Materials groupBy="Documents" />} />
-        <Route path="/materials" element={<Materials groupBy="Pictures" />} /> {/* should be grouped by all */}
+        <Route path="/plans" element={<Materials groupBy="текстов документ" />} />
+        <Route path="/materials" element={<Materials groupBy="снимки" />} /> {/* should be grouped by all */}
         <Route path="/upload" element={<Upload />} />
         <Route path="/trending" element={<Trend />} />
 
         <Route path="/materials/token=:token" element={<Present />} />
-        <Route path="/user/id=:id" element={<UserSettings />} />
+        <Route path="/user/edit" element={<UserSettings />} />
         <Route path="/search" element={<Search />} />
       </Route>
 
