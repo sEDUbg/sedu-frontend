@@ -10,10 +10,10 @@ const TYPE = {
   Pictures: "материал за",
 };
 
-const Material = ({ authors, post, tags, files }) => {
+const Material = ({ authors, post, tags, files, token }) => {
   return (
     <Link
-      to={"#"}
+      to={"/materials/token=" + token}
       className="flex flex-col dark:black hover:border hover:bg-gray-100 dark:hover:bg-slate-900 hover:border-gray-200 dark:hover:border-slate-800 rounded-2xl cursor-pointer overflow-hidden box-border"
     >
       <img
