@@ -4,7 +4,7 @@ import AuthorSkeleton from "./Skeletons/Author";
 import Specs from "./Author/Specs";
 import Stats from "./Author/Stats";
 
-const Author = ({ presentation, author, type }) => {
+const Author = ({ presentation, author, type, likes, dislikes, views }) => {
   useEffect(() => {
     console.log(presentation);
   }, [presentation]);
@@ -16,16 +16,16 @@ const Author = ({ presentation, author, type }) => {
       <div className="flex space-x-4 items-center">
         <img
           className="flex-initial w-24 rounded-full border dark:border-slate-800 aspect-square"
-          src={author.profileUrl || "/img/default.png"}
-          alt={author.Username}
+          src={author?.UsersInfo?.Avatar || "/img/default.png"}
+          alt={author?.Username}
         />
         <div className="flex-initial presentation__author-info space-y-4">
           <div>
             <div className="presentation__author-name font-black text-lg">
-              <h3>{author.FirstName + " " + author.LastName}</h3>
+              <h3>{author?.FirstName + " " + author?.LastName}</h3>
             </div>
             <div className="presentation__author-class font-light text-xs">
-              ученик в {author.class} клас, {author.school}
+              ученик в {author?.UsersInfo?.Grade} клас, {author?.UsersInfo?.School?.Name}
             </div>
           </div>
           <div className="presentation__author-bio text-sm">{author.bio}</div>
@@ -33,14 +33,18 @@ const Author = ({ presentation, author, type }) => {
       </div>
       <div className="divide-y space-y-4 dark:divide-slate-800">
         <div className="presentation__author-bio pt-4">
-          {presentation?.info?.description}
+          {presentation?.Description}
         </div>
         <Specs
-          subject={presentation?.info?.specs?.subject}
-          grade={presentation?.info?.specs?.class}
+          subject={presentation?.PostSubject?.Name}
+          grade={presentation?.Grade}
           type={type}
         />
-        <Stats {...presentation?.info?.stats} />
+        <Stats
+          views={views}
+          likes={likes}
+          dislikes={dislikes}
+        />
       </div>
     </div>
   );

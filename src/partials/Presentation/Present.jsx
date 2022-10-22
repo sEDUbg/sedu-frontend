@@ -13,12 +13,14 @@ import axios from "axios";
 const Present = () => {
   const { token } = useParams(); // ID to Presentation -> TBU for dynamic parsing
   // const { data: presentation, loading, error } = useFetch("data/presentation.json");
+  const [data, setData] = useState(null);
   const [material, setMaterial] = useState({});
   const [author, setAuthor] = useState({});
   const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
+  const [views, setViews] = useState(0);
   useEffect(() => {
     // const docRef = doc(getFirestore(app), type, uuid);
     // await updateDoc(docRef, { "info.stats.views": increment(1) });
@@ -36,12 +38,14 @@ const Present = () => {
       `https://monkfish-app-swhuo.ondigitalocean.app/api/post/get/${token}`,
       { withCredentials: true }
     ).then((response) => {
+      setData(response.data);
       setMaterial(response.data.post);
-      setAuthor(response.data.author);
+      setAuthor(data?.authors[0].User);
       setTags(response.data.tags);
       setFiles(response.data.files);
       setLikes(response.data.likes);
       setDislikes(response.data.dislikes);
+      setViews(response.data.views);
     }).catch((error) => {
       console.log(error);
     });
@@ -60,7 +64,7 @@ const Present = () => {
           <Comments />
         </div>
         <div className="flex-initial 2xl:w-1/5 lg:w-1/3 md:w-1/4 m-3 md:m-10 space-y-5">
-          {/* <Author presentation={material} author={author} type={type} /> */}
+          <Author presentation={material} author={author} type={material?.PostType?.Name} likes={likes} dislikes={dislikes} views={views} />
           {/* <Suggestions /> */}
         </div>
       </div>
