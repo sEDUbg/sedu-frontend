@@ -28,7 +28,7 @@ const Search = () => {
   return (
     <div className="w-full flex flex-col justify-content items-center m-auto">
       <div>
-        <InstantSearch searchClient={searchClient} indexName="materials">
+        <InstantSearch searchClient={searchClient} indexName="dev_posts">
           <SearchBox />
           <Hits hitComponent={Material} className="materials" />
         </InstantSearch>
@@ -63,35 +63,22 @@ const CustomHighlight = connectHighlight(({ hit }) => {
 });
 
 const Material = ({ hit }) => {
-  const author = getDoc(
-    doc(
-      getFirestore(app),
-      "StripeCustomers",
-      hit.Author.substring(hit.Author.indexOf("/") + 1)
-    )
-  )
-    .then((author) => {
-      return author.data();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  console.log(hit.path.substring(0, hit.path.indexOf("/")));
+  // console.log(hit);
+  const author = hit.authors[0].author;
+  const post = hit.post;
+  // console.log(hit.path.substring(0, hit.path.indexOf("/")));
   const data = {
-    title: hit.title,
+    title: post.Title,
     link:
-      "/materials/type=" +
-      hit.path.substring(0, hit.path.indexOf("/")) +
-      "/uuid=" +
-      hit.objectID,
+      "/materials/token=" +
+      post.Token,
     thumbnail: "#",
-    type: hit.path.substring(0, hit.path.indexOf("/")),
-    subject: hit.info.specs.subject,
-    class: hit.info.specs.class,
+    type: post.Type,
+    subject: post.Subject,
+    class: post.Grade,
     author: {
       name: author.FirstName + " " + author.LastName,
-      imageUrl: author.profileUrl,
+      imageUrl: author.Avatar,
       profileUrl: "/user/id=" + author.id,
     },
   };

@@ -42,7 +42,7 @@ const VirtualRoutes = ({ isLoggedIn, setIsLoggedIn, setShowNav }) => {
         <Route path="/upload" element={<Upload />} />
         <Route path="/trending" element={<Trend />} />
 
-        <Route path="/materials/type=:type/uuid=:uuid" element={<Present />} />
+        <Route path="/materials/token=:token" element={<Present />} />
         <Route path="/user/id=:id" element={<UserSettings />} />
         <Route path="/search" element={<Search />} />
       </Route>
