@@ -71,9 +71,9 @@ const UserSettings = () => {
         last_name: lastName,
         school: school.current.value,
         grade: grade,
-        bio: bio,
         email: email,
         username: username,
+        bio: bio,
         avatar: image
       };
       setUserDataChange(false);
@@ -131,7 +131,7 @@ const UserSettings = () => {
           setGrade(response.data.user.UsersInfo.Grade);
           setBio(response.data.user.UsersInfo.Bio);
           setImage(response.data.user.UsersInfo.Avatar);
-          School.current = response.data.user.UsersInfo.School.Name;
+          school.current.value = response.data.user.UsersInfo.School.Name;
         }
       })
       .catch((error) => {
