@@ -40,7 +40,7 @@ const Present = () => {
     ).then((response) => {
       setData(response.data);
       setMaterial(response.data.post);
-      setAuthor(data?.authors[0].User);
+      setAuthor(response.data?.authors[0].User);
       setTags(response.data.tags);
       setFiles(response.data.files);
       setLikes(response.data.likes);
